@@ -1,0 +1,36 @@
+{
+    "name": "soflomo/blog",
+    "description": "Blogging module for Ensemble",
+    "license": "BSD-3-Clause",
+    "type": "library",
+    "keywords": [
+        "zf2",
+        "blog"
+    ],
+    "homepage": "https://github.com/Soflomo/Blog",
+    "authors": [
+        {
+            "name": "Jurian Sluiman",
+            "email": "jurian@soflomo.com",
+            "homepage": "http://soflomo.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3.",
+        "zendframework/zendframework": "2.*",
+        "zf-commons/zfc-admin": "1.*",
+        "doctrine/doctrine-orm-module": "0.*"
+    },
+    "require-dev": {
+        "hounddog/doctrine-data-fixture-module": "dev-master",
+        "fzaninotto/faker": "1.*@stable"
+    },
+    "autoload": {
+        "psr-0": {
+            "Soflomo\\Blog": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}

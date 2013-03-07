@@ -1,0 +1,25 @@
+<?php
+/**
+ * Edit page of blog article in admin
+ *
+ * @var $blog    Current blog
+ * @var $article Article from this blog
+ * @var $form    Form to edit article
+ */
+?>
+
+<h1>Edit article</h1>
+
+<?php $form->prepare()?>
+<?php echo $this->form()->openTag($form)?>
+    <?php echo $this->formRow($form->get('title'))?>
+    <?php echo $this->formRow($form->get('lead')->setAttributes(array(
+        'cols' => 50,
+        'rows' => 10,
+    )))?>
+    <?php echo $this->formRow($form->get('body')->setAttributes(array(
+        'cols' => 50,
+        'rows' => 10,
+    )))?>
+    <button type="submit">Save</button>
+<?php echo $this->form()->closeTag()?>

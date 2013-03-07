@@ -1,0 +1,24 @@
+<?php
+/**
+ * Listing of blog articles in admin
+ *
+ * @var $blog     Current blog
+ * @var $articles Articles from this blog
+ */
+?>
+
+<h1>Blog listing</h1>
+
+<ul>
+    <?php foreach($articles as $article):?>
+    <li><a href="<?php echo $this->url('zfcadmin/blog/article/view', array(
+            'article' => $article->getId()
+        ), array(), true)?>">
+        <?php echo $this->escapeHtml($article->getTitle()) ?>
+    </a></li>
+    <?php endforeach ?>
+</ul>
+
+<a href="<?php echo $this->url('zfcadmin/blog/article/create', array(),array(),true)?>">
+    New article
+</a>
