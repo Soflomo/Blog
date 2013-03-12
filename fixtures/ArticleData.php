@@ -3,11 +3,12 @@ namespace Soflomo\Blog\Fixture;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 use Faker;
 use Soflomo\Blog\Entity\Article;
 
-class ArticleData extends AbstractFixture
+class ArticleData extends AbstractFixture implements DependentFixtureInterface
 {
     protected $n = 10;
 
