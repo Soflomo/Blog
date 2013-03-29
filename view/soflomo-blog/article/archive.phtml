@@ -1,0 +1,22 @@
+<?php
+/**
+ * Listing of articles in archive
+ *
+ * @var $paginator Zend\Paginator\Paginator
+ */
+?>
+<h1>Blog</h1>
+
+<?php if (count($this->paginator)): ?>
+<ul>
+<?php foreach ($this->paginator as $article): ?>
+    <li><a href="<?php echo $this->url('blog/view', array('article' => $article->getId()))?>">
+        <?php echo $this->escapeHtml($article->getTitle())?>
+    </a></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<?php echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    'soflomo-blog/pagination/control', array('route' => 'application/paginator')); ?>

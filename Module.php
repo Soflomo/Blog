@@ -48,6 +48,7 @@ use Zend\ModuleManager\Feature;
 use Zend\EventManager\EventInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
+use Doctrine\ORM\Mapping\Driver\XmlDriver;
 
 class Module implements
     Feature\AutoloaderProviderInterface,
@@ -76,10 +77,15 @@ class Module implements
         $app = $event->getApplication();
         $em  = $app->getEventManager()->getSharedManager();
 
+        $this->attachTemplateListener($em);
+    }
+
+    protected function attachTemplateListener($em)
+    {
         $listener    = new InjectTemplateListener;
         $controllers = array(
-            'Soflomo\Blog\Controller\ArticleController',
             'Soflomo\BlogAdmin\Controller\ArticleController',
+            'Soflomo\Blog\Controller\ArticleController',
         );
         $em->attach($controllers, MvcEvent::EVENT_DISPATCH, array($listener, 'injectTemplate'), -80);
     }
@@ -126,14 +132,18 @@ class Module implements
                     return $options;
                 },
                 'Soflomo\Blog\Repository\Article' => function($sm) {
+                    $options       = $sm->get('Soflomo\Blog\Options\ModuleOptions');
+                    $class         = $options->getArticleEntityClass();
                     $entityManager = $sm->get('Doctrine\ORM\EntityManager');
-                    $repository    = $entityManager->getRepository('Soflomo\Blog\Entity\Article');
+                    $repository    = $entityManager->getRepository($class);
 
                     return $repository;
                 },
                 'Soflomo\Blog\Repository\Blog' => function($sm) {
+                    $options       = $sm->get('Soflomo\Blog\Options\ModuleOptions');
+                    $class         = $options->getBlogEntityClass();
                     $entityManager = $sm->get('Doctrine\ORM\EntityManager');
-                    $repository    = $entityManager->getRepository('Soflomo\Blog\Entity\Blog');
+                    $repository    = $entityManager->getRepository($blog);
 
                     return $repository;
                 },

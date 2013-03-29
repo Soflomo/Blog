@@ -46,28 +46,47 @@ namespace Soflomo\Blog\Repository;
 use DateTime;
 use Doctrine\ORM\EntityRepository;
 
+use Doctrine\ORM\Tools\Pagination\Paginator               as DoctrinePaginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Zend\Paginator\Paginator;
+
 class Article extends EntityRepository
 {
     public function findRecent($limit)
     {
         $qb = $this->createQueryBuilder('a');
-        $qb->andWhere('a.publishDate IS NOT NULL')
-           ->orderBy('a.publishDate', 'DESC')
-           ->setMaxResults($limit);
+        $qb->setMaxResults($limit);
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function getPaginator()
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $paginator = new DoctrinePaginator($qb->getQuery());
+        $adapter   = new PaginatorAdapter($paginator);
+
+        return new Paginator($adapter);
     }
 
     public function findByRange(DateTime $from, DateTime $to)
     {
         $qb = $this->createQueryBuilder('a');
-        $qb->andWhere('a.publishDate IS NOT NULL')
-           ->orderBy('a.publishDate', 'DESC')
-           ->andWhere('a.publishDate > :from')
+        $qb->andWhere('a.publishDate > :from')
            ->setParameter('from', $from)
            ->andWhere('a.publishDate < :to')
            ->setParameter('to', $to);
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function createQueryBuilder($alias)
+    {
+        $qb = parent::createQueryBuilder($alias);
+        $qb->andWhere('a.publishDate IS NOT NULL')
+           ->orderBy('a.publishDate', 'DESC');
+
+        return $qb;
     }
 }

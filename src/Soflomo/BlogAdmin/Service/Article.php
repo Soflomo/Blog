@@ -47,12 +47,15 @@ use Soflomo\Blog\Entity\Article     as ArticleEntity;
 use Soflomo\Blog\Repository\Article as ArticleRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository   as BlogRepository;
+use Zend\EventManager;
 
-class Article
+class Article implements EventManager\EventManagerAwareInterface
 {
     protected $entityManager;
     protected $blogRepository;
     protected $articleRepository;
+
+    protected $eventManager;
 
     public function __construct(EntityManager $em, BlogRepository $blogRepository, ArticleRepository $articleRepository)
     {
@@ -83,18 +86,71 @@ class Article
 
     public function create(ArticleEntity $article)
     {
+        $this->trigger(__FUNCTION__ . '.pre', array('article' => $article));
+
         $this->getEntityManager()->persist($article);
         $this->getEntityManager()->flush();
+
+        $this->trigger(__FUNCTION__ . '.post', array('article' => $article));
     }
 
     public function update(ArticleEntity $article)
     {
+        $this->trigger(__FUNCTION__ . '.pre', array('article' => $article));
+
         $this->getEntityManager()->flush();
+
+        $this->trigger(__FUNCTION__ . '.post', array('article' => $article));
     }
 
     public function delete(ArticleEntity $article)
     {
+        $this->trigger(__FUNCTION__ . '.pre', array('article' => $article));
+
         $this->getEntityManager()->remove($article);
         $this->getEntityManager()->flush();
+
+        $this->trigger(__FUNCTION__ . '.post', array('article' => $article));
     }
+
+    public function trigger($name, array $parameters = array())
+    {
+        $event = new EventManager\Event;
+        $event->setTarget($this);
+        $event->setName($name);
+        $event->setParams($parameters);
+
+        $this->getEventManager()->trigger($event);
+    }
+
+    /**
+     * Getter for eventManager
+     *
+     * @return mixed
+     */
+    public function getEventManager()
+    {
+        if (null === $this->eventManager) {
+            $this->setEventManager(new EventManager\EventManager);
+        }
+        return $this->eventManager;
+    }
+
+    /**
+     * Setter for eventManager
+     *
+     * @param mixed $eventManager Value to set
+     * @return self
+     */
+    public function setEventManager(EventManager\EventManagerInterface $eventManager)
+    {
+        $eventManager->setIdentifiers(array(
+            __CLASS__,
+            get_called_class(),
+        ));
+
+        $this->eventManager = $eventManager;
+        return $this;
+    }
+
 }

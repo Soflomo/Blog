@@ -55,7 +55,22 @@ class ModuleOptions extends AbstractOptions
     /**
      * @var int
      */
-    protected $recentListingLimit;
+    protected $recentListingLimit = 10;
+
+    /**
+     * @var int
+     */
+    protected $archiveListingLimit = 10;
+
+    /**
+     * @var string
+     */
+    protected $blogEntityClass;
+
+    /**
+     * @var string
+     */
+    protected $articleEntityClass;
 
     /**
      * Getter for recentListingLimit
@@ -76,6 +91,73 @@ class ModuleOptions extends AbstractOptions
     public function setRecentListingLimit($recentListingLimit)
     {
         $this->recentListingLimit = (int) $recentListingLimit;
+        return $this;
+    }
+
+    /**
+     * Getter for archiveListingLimit
+     *
+     * @return mixed
+     */
+    public function getArchiveListingLimit()
+    {
+        return $this->archiveListingLimit;
+    }
+
+    /**
+     * Setter for archiveListingLimit
+     *
+     * @param mixed $archiveListingLimit Value to se
+     * @return self
+     */
+    public function setArchiveListingLimit($archiveListingLimit)
+    {
+        $this->archiveListingLimit = $archiveListingLimit;
+        return $this;
+    }
+
+
+    /**
+     * Getter for blogEntityClass
+     *
+     * @return mixed
+     */
+    public function getBlogEntityClass()
+    {
+        return $this->blogEntityClass;
+    }
+
+    /**
+     * Setter for blogEntityClass
+     *
+     * @param mixed $blogEntityClass Value to set
+     * @return self
+     */
+    public function setBlogEntityClass($blogEntityClass)
+    {
+        $this->blogEntityClass = $blogEntityClass;
+        return $this;
+    }
+
+    /**
+     * Getter for articleEntityClass
+     *
+     * @return mixed
+     */
+    public function getArticleEntityClass()
+    {
+        return $this->articleEntityClass;
+    }
+
+    /**
+     * Setter for articleEntityClass
+     *
+     * @param mixed $articleEntityClass Value to set
+     * @return self
+     */
+    public function setArticleEntityClass($articleEntityClass)
+    {
+        $this->articleEntityClass = $articleEntityClass;
         return $this;
     }
 }

@@ -110,6 +110,20 @@ class ArticleController extends AbstractActionController
         );
     }
 
+    public function archiveAction()
+    {
+        $page      = $this->params('page');
+        $limit     = $this->getOptions()->getArchiveListingLimit();
+        $paginator = $this->getRepository()->getPaginator();
+
+        $paginator->setCurrentPageNumber($page)
+                  ->setItemCountPerPage($limit);
+
+        return array(
+            'paginator' => $paginator
+        );
+    }
+
     public function byDateAction()
     {
         $from = new DateTime($this->params('from'));

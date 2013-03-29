@@ -43,40 +43,6 @@
 
 namespace Soflomo\Blog\Entity;
 
-class Blog implements BlogInterface
+class Blog extends BlogBase
 {
-    protected $id;
-    protected $slug;
-
-    /**
-     * Getter for id
-     *
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Getter for slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Setter for slug
-     *
-     * @param string $slug Value to set
-     * @return self
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = (string) $slug;
-        return $this;
-    }
 }
