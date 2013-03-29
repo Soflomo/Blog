@@ -106,6 +106,13 @@ class ArticleController extends AbstractActionController
             ));
         }
 
+        $now = new DateTime;
+        if (!$article->isPublished() || $article->getPublishDate() > $now) {
+            throw new Exception\ArticleNotFoundException(sprintf(
+                'Article id "%s" is not published', $id
+            ));
+        }
+
         $slugifier = new Slugifier;
         $slug      = $slugifier->slugify($article->getTitle());
         if ($slug !== $this->params('slug') ) {
