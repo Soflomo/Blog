@@ -18,8 +18,9 @@
     "require": {
         "php": ">=5.3.3.",
         "zendframework/zendframework": "2.*",
-        "zf-commons/zfc-admin": "0.1.*",
         "doctrine/doctrine-orm-module": "0.*",
+        "zf-commons/zfc-admin": "0.1.*",
+        "slm/exception": "dev-master",
         "bacon/bacon-string-utils": "dev-master"
     },
     "require-dev": {
