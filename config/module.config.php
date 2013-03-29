@@ -197,6 +197,12 @@ return array(
         ),
     ),
 
+    'view_helpers' => array(
+        'invokables' => array(
+            'slug' => 'Soflomo\Blog\View\Helper\Slug'
+        ),
+    ),
+
     'doctrine' => array(
         'driver' => array(
             'soflomo_blog' => array(
