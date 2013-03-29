@@ -42,7 +42,11 @@
 
 return array(
     'soflomo_blog' => array(
-        'recent_listing_limit' => 10,
+        'blog_entity_class'    => 'Soflomo\Blog\Entity\Blog',
+        'article_entity_class' => 'Soflomo\Blog\Entity\Article',
+
+        'recent_listing_limit'  => 10,
+        'archive_listing_limit' => 10,
     ),
 
     'router' => array(
@@ -68,6 +72,19 @@ return array(
                             'constraints' => array(
                                 'article' => '[0-9]+',
                                 'slug'    => '[a-zA-Z0-9-_]+',
+                            ),
+                        ),
+                    ),
+                    'archive' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/archive[/:page]',
+                            'defaults' => array(
+                                'action' => 'archive',
+                                'page'   => '1',
+                            ),
+                            'constraints' => array(
+                                'page' => '[0-9]+',
                             ),
                         ),
                     ),
