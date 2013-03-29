@@ -44,6 +44,7 @@
 namespace Soflomo\Blog\Controller;
 
 use DateTime;
+use BaconStringUtils\Slugifier;
 use Soflomo\Blog\Exception;
 use Soflomo\Blog\Options\ModuleOptions;
 use Soflomo\Blog\Repository\Article as ArticleRepository;
@@ -102,6 +103,22 @@ class ArticleController extends AbstractActionController
         if (null === $article) {
             throw new Exception\ArticleNotFoundException(sprintf(
                 'Article id "%s" not found', $id
+            ));
+        }
+
+        $now = new DateTime;
+        if (!$article->isPublished() || $article->getPublishDate() > $now) {
+            throw new Exception\ArticleNotFoundException(sprintf(
+                'Article id "%s" is not published', $id
+            ));
+        }
+
+        $slugifier = new Slugifier;
+        $slug      = $slugifier->slugify($article->getTitle());
+        if ($slug !== $this->params('slug') ) {
+            return $this->redirect()->toRoute(null, array(
+                'article' => $article->getId(),
+                'slug'    => $slug,
             ));
         }
 

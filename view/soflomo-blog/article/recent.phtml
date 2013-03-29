@@ -9,7 +9,10 @@
 
 <?php foreach ($articles as $article):?>
     <article>
-        <h2><a href="<?php echo $this->url('blog/view', array('article' => $article->getId()))?>">
+        <h2><a href="<?php echo $this->url('blog/view', array(
+            'article' => $article->getId(),
+            'slug'    => $this->slug($article->getTitle()),
+        ))?>">
             <?php echo $this->escapeHtml($article->getTitle())?>
         </a></h2>
         <p><?php echo $this->escapeHtml($article->getLead())?></p>

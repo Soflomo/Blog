@@ -166,6 +166,16 @@ class ArticleBase implements ArticleInterface
     }
 
     /**
+     * Check if this article is published
+     *
+     * @return boolean
+     */
+    public function isPublished()
+    {
+        return (null !== $this->publishDate);
+    }
+
+    /**
      * Getter for blog
      *
      * @return BlogInterface
