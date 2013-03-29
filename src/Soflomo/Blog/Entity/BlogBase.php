@@ -43,9 +43,40 @@
 
 namespace Soflomo\Blog\Entity;
 
-interface CategoryInterface
+class BlogBase implements BlogInterface
 {
-    public function getId();
-    public function getTitle();
-    public function setTitle();
+    protected $id;
+    protected $slug;
+
+    /**
+     * Getter for id
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Getter for slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Setter for slug
+     *
+     * @param string $slug Value to set
+     * @return self
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = (string) $slug;
+        return $this;
+    }
 }
