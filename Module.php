@@ -143,7 +143,7 @@ class Module implements
                     $options       = $sm->get('Soflomo\Blog\Options\ModuleOptions');
                     $class         = $options->getBlogEntityClass();
                     $entityManager = $sm->get('Doctrine\ORM\EntityManager');
-                    $repository    = $entityManager->getRepository($blog);
+                    $repository    = $entityManager->getRepository($class);
 
                     return $repository;
                 },
