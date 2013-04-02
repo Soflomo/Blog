@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package     Soflomo\Blog
- * @subpackage  Entity
+ * @subpackage  Exception
  * @author      Jurian Sluiman <jurian@soflomo.com>
  * @copyright   2013 Jurian Sluiman.
  * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
@@ -41,20 +41,8 @@
  * @version     @@PACKAGE_VERSION@@
  */
 
-namespace Soflomo\Blog\Entity;
+namespace Soflomo\Blog\Exception;
 
-use DateTime;
-
-interface ArticleInterface
+class InvalidArgumentException extends \InvalidArgumentException
 {
-    public function getId();
-    public function getTitle();
-    public function setTitle($title);
-    public function getLead();
-    public function setLead($lead);
-    public function getBody();
-    public function setBody($body);
-
-    public function getPublishDate();
-    public function setPublishDate($publishDate);
 }
