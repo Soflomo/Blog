@@ -12,7 +12,7 @@
         <field name="lead"  type="text"   unique="false" nullable="true" />
         <field name="body"  type="text"   unique="false" nullable="true" />
 
-        <field name="publishDate" column="publish_date" type="date" unique="false" nullable="true" />
+        <field name="publishDate" column="publish_date" type="datetime" unique="false" nullable="true" />
 
         <many-to-one field="blog" target-entity="Soflomo\Blog\Entity\Blog" nullable="false" />
     </mapped-superclass>
