@@ -119,7 +119,7 @@ class ArticleController extends AbstractActionController
             return $this->redirect()->toRoute(null, array(
                 'article' => $article->getId(),
                 'slug'    => $slug,
-            ));
+            ))->setStatusCode(301);
         }
 
         return array(
