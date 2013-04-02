@@ -43,6 +43,8 @@
 
 namespace Soflomo\Blog\Exception;
 
-class ArticleNotFoundException extends \Exception
+use SlmException\Exception\PageNotFoundInterface;
+
+class ArticleNotFoundException extends \Exception implements PageNotFoundInterface
 {
 }
