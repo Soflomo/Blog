@@ -44,6 +44,7 @@
 namespace Soflomo\Blog\Entity;
 
 use DateTime;
+use Soflomo\Blog\Exception\InvalidArgumentException;
 
 class ArticleBase implements ArticleInterface
 {
@@ -159,8 +160,17 @@ class ArticleBase implements ArticleInterface
      * @param DateTime $publishDate Value to set
      * @return self
      */
-    public function setPublishDate(DateTime $publishDate)
+    public function setPublishDate($publishDate)
     {
+        if (is_string($publishDate)) {
+            $publishDate = new DateTime($publishDate);
+        } else if (!$publishDate instanceof DateTime) {
+            throw new InvalidArgumentException(sprintf(
+                'Publish date must be string or DateTime object, %s given',
+                gettype($publishDate)
+            ));
+        }
+
         $this->publishDate = $publishDate;
         return $this;
     }
