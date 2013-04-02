@@ -216,8 +216,4 @@ return array(
             ),
         ),
     ),
-
-    'data-fixture' => array(
-        'soflomo-blog' => __DIR__ . '/../fixtures',
-    ),
 );
