@@ -79,6 +79,15 @@ class Article extends Form implements
                 'type'  => 'textarea',
             ),
         ));
+
+        $this->add(array(
+            'name'    => 'publish_date',
+            'type'    => 'datetime',
+            'options' => array(
+                'format'  => 'Y-m-d H:i',
+                'label' => 'Publish date'
+            ),
+        ));
     }
 
     public function getInputFilterSpecification()
@@ -88,7 +97,7 @@ class Article extends Form implements
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'stringtrim'),
-                ),
+            ),
             ),
             'lead'  => array(
                 'required' => false,
@@ -101,6 +110,9 @@ class Article extends Form implements
                 'filters'  => array(
                     array('name' => 'stringtrim'),
                 ),
+            ),
+            'publish_date' => array(
+                'required' => false,
             ),
         );
     }
