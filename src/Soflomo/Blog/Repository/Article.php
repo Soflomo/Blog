@@ -55,7 +55,9 @@ class Article extends EntityRepository
     public function findRecent($limit)
     {
         $qb = $this->createQueryBuilder('a');
-        $qb->setMaxResults($limit);
+        $qb->andWhere('a.publishDate <= :now')
+           ->setParameter('now', new DateTime)
+           ->setMaxResults($limit);
 
         return $qb->getQuery()->getResult();
     }

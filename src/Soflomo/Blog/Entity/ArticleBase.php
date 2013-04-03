@@ -162,9 +162,11 @@ class ArticleBase implements ArticleInterface
      */
     public function setPublishDate($publishDate)
     {
-        if (is_string($publishDate)) {
+        if (empty($publishDate)) {
+            $publishDate = null;
+        } elseif (is_string($publishDate)) {
             $publishDate = new DateTime($publishDate);
-        } else if (!$publishDate instanceof DateTime) {
+        } elseif (!$publishDate instanceof DateTime) {
             throw new InvalidArgumentException(sprintf(
                 'Publish date must be string or DateTime object, %s given',
                 gettype($publishDate)
