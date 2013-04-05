@@ -75,19 +75,34 @@ class Module implements
     public function onBootstrap(EventInterface $event)
     {
         $app = $event->getApplication();
+        $sm  = $app->getServiceManager();
         $em  = $app->getEventManager()->getSharedManager();
 
         $this->attachTemplateListener($em);
+        $this->attachFeedStrategy($em, $sm);
     }
 
     protected function attachTemplateListener($em)
     {
         $listener    = new InjectTemplateListener;
         $controllers = array(
-            'Soflomo\BlogAdmin\Controller\ArticleController',
             'Soflomo\Blog\Controller\ArticleController',
+            'Soflomo\BlogAdmin\Controller\ArticleController',
         );
         $em->attach($controllers, MvcEvent::EVENT_DISPATCH, array($listener, 'injectTemplate'), -80);
+    }
+
+    public function attachFeedStrategy($em, $sm)
+    {
+        $controllers = array(
+            'Soflomo\Blog\Controller\ArticleController',
+        );
+        $em->attach($controllers, MvcEvent::EVENT_DISPATCH, function($e) use ($sm) {
+            $view         = $sm->get('Zend\View\View');
+            $feedStrategy = $sm->get('ViewFeedStrategy');
+
+            $view->getEventManager()->attach($feedStrategy, 10);
+        }, 10);
     }
 
     public function getConfig()
