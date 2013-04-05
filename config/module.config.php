@@ -88,6 +88,19 @@ return array(
                             ),
                         ),
                     ),
+                    'feed' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/feed[/:type]',
+                            'defaults' => array(
+                                'action' => 'feed',
+                                'type'   => 'rss',
+                            ),
+                            'constraints' => array(
+                                'type' => '(rss|atom)',
+                            ),
+                        ),
+                    ),
                     'by-date' => array(
                         'type'    => 'segment',
                         'options' => array(
