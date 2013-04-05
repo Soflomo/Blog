@@ -47,6 +47,12 @@ return array(
 
         'recent_listing_limit'  => 10,
         'archive_listing_limit' => 10,
+
+        'feed_generator'        => array(
+            'name'    => 'Ensemble blog',
+            'version' => 'v0.1.0',
+            'uri'     => 'http://github.com/Soflomo/Blog',
+        ),
     ),
 
     'router' => array(

@@ -63,6 +63,16 @@ class ModuleOptions extends AbstractOptions
     protected $archiveListingLimit = 10;
 
     /**
+     * @var  int
+     */
+    protected $feedListingLimit = 10;
+
+    /**
+     * @var  array
+     */
+    protected $feedGenerator;
+
+    /**
      * @var string
      */
     protected $blogEntityClass;
@@ -116,6 +126,65 @@ class ModuleOptions extends AbstractOptions
         return $this;
     }
 
+    /**
+     * Getter for feedListingLimit
+     *
+     * @return mixed
+     */
+    public function getFeedListingLimit()
+    {
+        return $this->feedListingLimit;
+    }
+
+    /**
+     * Setter for feedListingLimit
+     *
+     * @param mixed $feedListingLimit Value to set
+     * @return self
+     */
+    public function setFeedListingLimit($feedListingLimit)
+    {
+        $this->feedListingLimit = $feedListingLimit;
+        return $this;
+    }
+
+    /**
+     * Getter for feedGenerator
+     *
+     * @return mixed
+     */
+    public function getFeedGenerator()
+    {
+        return $this->feedGenerator;
+    }
+
+    /**
+     * Setter for feedGenerator
+     *
+     * @param mixed $feedGenerator Value to set
+     * @return self
+     */
+    public function setFeedGenerator($feedGenerator)
+    {
+        if (!is_array($feedGenerator)) {
+            throw new InvalidArgumentException(sprintf(
+                'Feed generator must be an array, %s given',
+                gettype($feedGenerator)
+            ));
+        }
+        if (!isset($feedGenerator['name'])
+         || !isset($feedGenerator['version'])
+         || !isset($feedGenerator['uri']))
+        {
+            throw new InvalidArgumentException(sprintf(
+                'Feed generator must contain keys "name", "version" and "uri", only "%s" given',
+                implode(',', array_keys($feedGenerator))
+            ));
+        }
+
+        $this->feedGenerator = $feedGenerator;
+        return $this;
+    }
 
     /**
      * Getter for blogEntityClass
