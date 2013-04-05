@@ -49,6 +49,7 @@ use Soflomo\Blog\Exception;
 use Soflomo\Blog\Options\ModuleOptions;
 use Soflomo\Blog\Repository\Article as ArticleRepository;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\FeedModel;
 
 class ArticleController extends AbstractActionController
 {
@@ -139,6 +140,59 @@ class ArticleController extends AbstractActionController
         return array(
             'paginator' => $paginator
         );
+    }
+
+    public function feedAction()
+    {
+        $limit    = $this->getOptions()->getFeedListingLimit();
+        $articles = $this->getRepository()->findRecent($limit);
+
+        $model = new FeedModel;
+        $model->setOption('feed_type', $this->params('type', 'rss'));
+
+        // Convert articles listing into feed
+        $model->title       = 'Soflomo Blog';              // Get ensemble page title
+        $model->description = 'Blog for testing purposes'; // Get ensemble page description
+        $model->link        = $this->url()->fromRoute('blog', array(), array('force_canonical' => true));
+        $model->feed_link   = array(
+            'link' => $this->url()->fromRoute('blog/feed', array(), array('force_canonical' => true)),
+            'type' => $this->params('type', 'rss'),
+        );
+
+        if (null !== ($generator = $this->getOptions()->getFeedGenerator())) {
+            $model->generator = $generator;
+        }
+
+        $entries   = array();
+        $modified  = new DateTime('@0');
+        $slugifier = new Slugifier;
+        foreach ($articles as $article) {
+            $entry = array(
+                'title'        => $article->getTitle(),
+                'description'  => $article->getLead(),
+                'date_created' => $article->getPublishDate(),
+                'link'         => $this->url()->fromRoute(
+                    'blog/view',
+                    array('article' => $article->getId(), 'slug' => $slugifier->slugify($article->getTitle())),
+                    array('force_canonical' => true)
+                ),
+        //        author' => array(
+        //             'name'  => 'Jurian Sluiman',
+        //             'email' => 'jurian@juriansluiman.nl', // optional
+        //             'uri'   => 'http://juriansluiman.nl', // optiona;
+        //         ),
+            );
+
+            if ($article->getPublishDate() > $modified) {
+                $modified = $article->getPublishDate();
+            }
+
+            $entries[] = $entry;
+        }
+        $model->entries       = $entries;
+        $model->date_modified = $modified;
+
+        return $model;
     }
 
     public function byDateAction()
