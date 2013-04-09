@@ -43,8 +43,8 @@
 
 namespace Soflomo\BlogAdmin\Service;
 
-use Soflomo\Blog\Entity\Article     as ArticleEntity;
-use Soflomo\Blog\Repository\Article as ArticleRepository;
+use Soflomo\Blog\Entity\ArticleInterface as ArticleEntity;
+use Soflomo\Blog\Repository\Article      as ArticleRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository   as BlogRepository;
 use Zend\EventManager;

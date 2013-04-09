@@ -43,7 +43,6 @@
 
 namespace Soflomo\BlogAdmin\Controller;
 
-use DateTime;
 use Soflomo\Blog\Entity\Article as ArticleEntity;
 use Soflomo\Blog\Entity\Blog    as BlogEntity;
 use Soflomo\Blog\Exception;
@@ -128,9 +127,7 @@ class ArticleController extends AbstractActionController
     public function createAction()
     {
         $blog    = $this->getBlog();
-        $article = new ArticleEntity;
-        $article->setBlog($blog);
-
+        $article = $this->getArticle($blog, true);
         $form    = $this->getForm();
         $form->bind($article);
 
@@ -168,7 +165,7 @@ class ArticleController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getService()->update($article);
 
-                return $this->redirect()->toRoute('zfcadmin/blog/article/view', array(
+                return $this->redirect()->toRoute('zfcadmin/blog/article/update', array(
                     'blog'    => $blog->getSlug(),
                     'article' => $article->getId(),
                 ));
@@ -210,8 +207,16 @@ class ArticleController extends AbstractActionController
         return $blog;
     }
 
-    protected function getArticle(BlogEntity $blog)
+    protected function getArticle(BlogEntity $blog, $create = false)
     {
+        if (true === $create) {
+            $class   = $this->getOptions()->getArticleEntityClass();
+            $article = new $class;
+            $article->setBlog($blog);
+
+            return $article;
+        }
+
         $id      = $this->params('article');
         $article = $this->getRepository()->find($id);
 
