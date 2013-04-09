@@ -157,22 +157,11 @@ class ArticleBase implements ArticleInterface
     /**
      * Setter for publish date
      *
-     * @param DateTime $publishDate Value to set
+     * @param DateTime|null $publishDate Value to set, null to unset
      * @return self
      */
-    public function setPublishDate($publishDate)
+    public function setPublishDate(DateTime $publishDate = null)
     {
-        if (empty($publishDate)) {
-            $publishDate = null;
-        } elseif (is_string($publishDate)) {
-            $publishDate = new DateTime($publishDate);
-        } elseif (!$publishDate instanceof DateTime) {
-            throw new InvalidArgumentException(sprintf(
-                'Publish date must be string or DateTime object, %s given',
-                gettype($publishDate)
-            ));
-        }
-
         $this->publishDate = $publishDate;
         return $this;
     }
@@ -209,84 +198,84 @@ class ArticleBase implements ArticleInterface
         return $this;
     }
 
-    /**
-     * Getter for categories
-     *
-     * @return array
-     */
-    public function getCategories()
-    {
-        return $this->categories;
-    }
+    // /**
+    //  * Getter for categories
+    //  *
+    //  * @return array
+    //  */
+    // public function getCategories()
+    // {
+    //     return $this->categories;
+    // }
 
-    /**
-     * Setter for categories
-     *
-     * @param array $categories Value to set
-     * @return self
-     */
-    public function setCategories(array $categories)
-    {
-        $this->categories = $categories;
-        return $this;
-    }
+    // /**
+    //  * Setter for categories
+    //  *
+    //  * @param array $categories Value to set
+    //  * @return self
+    //  */
+    // public function setCategories(array $categories)
+    // {
+    //     $this->categories = $categories;
+    //     return $this;
+    // }
 
-    /**
-     * Add single category
-     *
-     * @param CategoryInterface $category Value to set
-     * @return self
-     */
-    public function addCategory(CategoryInterface $category)
-    {
-        if (!$this->hasCategory($category)) {
-            $this->categories[] = $category;
-        }
+    // /**
+    //  * Add single category
+    //  *
+    //  * @param CategoryInterface $category Value to set
+    //  * @return self
+    //  */
+    // public function addCategory(CategoryInterface $category)
+    // {
+    //     if (!$this->hasCategory($category)) {
+    //         $this->categories[] = $category;
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    /**
-     * Remove single category
-     *
-     * @param CategoryInterface $category Value to remove
-     * @return self
-     */
-    public function removeCategory(CategoryInterface $category)
-    {
-        $i = null;
-        foreach ($this->categories as $key => $item) {
-            if ($item->getId() === $category->getId()) {
-                $i = $key;
-                break;
-            }
-        }
+    // /**
+    //  * Remove single category
+    //  *
+    //  * @param CategoryInterface $category Value to remove
+    //  * @return self
+    //  */
+    // public function removeCategory(CategoryInterface $category)
+    // {
+    //     $i = null;
+    //     foreach ($this->categories as $key => $item) {
+    //         if ($item->getId() === $category->getId()) {
+    //             $i = $key;
+    //             break;
+    //         }
+    //     }
 
-        if (null === $i) {
-            throw new InvalidArgumentException(sprintf(
-                'Cannot remove category "%s" as article is not listed in this category',
-                $category->getId()
-            ));
-        }
+    //     if (null === $i) {
+    //         throw new InvalidArgumentException(sprintf(
+    //             'Cannot remove category "%s" as article is not listed in this category',
+    //             $category->getId()
+    //         ));
+    //     }
 
-        unset($this->categories[$i]);
-        return $this;
-    }
+    //     unset($this->categories[$i]);
+    //     return $this;
+    // }
 
-    /**
-     * Search if article is in given category
-     *
-     * @param  CategoryInterface $category Category to search for
-     * @return boolean                     Whether category is found
-     */
-    public function hasCategory(CategoryInterface $category)
-    {
-        foreach ($this->categories as $item) {
-            if ($item->getId() === $category->getId()) {
-                return true;
-            }
-        }
+    // /**
+    //  * Search if article is in given category
+    //  *
+    //  * @param  CategoryInterface $category Category to search for
+    //  * @return boolean                     Whether category is found
+    //  */
+    // public function hasCategory(CategoryInterface $category)
+    // {
+    //     foreach ($this->categories as $item) {
+    //         if ($item->getId() === $category->getId()) {
+    //             return true;
+    //         }
+    //     }
 
-        return false;
-    }
+    //     return false;
+    // }
 }

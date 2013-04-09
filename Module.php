@@ -44,10 +44,13 @@ namespace Soflomo\Blog;
 
 use Soflomo\BlogAdmin;
 use Soflomo\Common\View\InjectTemplateListener;
+use Soflomo\Common\Hydrator\Strategy\DateTimeStrategy;
+
 use Zend\ModuleManager\Feature;
 use Zend\EventManager\EventInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
+
 use Doctrine\ORM\Mapping\Driver\XmlDriver;
 
 class Module implements
@@ -166,8 +169,11 @@ class Module implements
                 // ADMIN SERVICES
 
                 'Soflomo\BlogAdmin\Form\Article' => function($sm) {
+                    $hydrator = new ClassMethodsHydrator;
+                    $hydrator->addStrategy('publish_date', new DateTimeStrategy);
+
                     $form = new BlogAdmin\Form\Article;
-                    $form->setHydrator(new ClassMethodsHydrator);
+                    $form->setHydrator($hydrator);
 
                     return $form;
                 },
