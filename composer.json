@@ -19,6 +19,7 @@
         "php": ">=5.3.3.",
         "zendframework/zendframework": "2.*",
         "doctrine/doctrine-orm-module": "0.*",
+        "soflomo/common": ">=0.2.0",
         "zf-commons/zfc-admin": "0.1.*",
         "bacon/bacon-string-utils": "dev-master"
     },

@@ -56,5 +56,5 @@ interface ArticleInterface
     public function setBody($body);
 
     public function getPublishDate();
-    public function setPublishDate($publishDate);
+    public function setPublishDate(DateTime $publishDate = null);
 }
