@@ -44,20 +44,15 @@ namespace Soflomo\Blog;
 
 use Soflomo\BlogAdmin;
 use Soflomo\Common\View\InjectTemplateListener;
-use Soflomo\Common\Hydrator\Strategy\DateTimeStrategy;
 
 use Zend\ModuleManager\Feature;
 use Zend\EventManager\EventInterface;
 use Zend\Mvc\MvcEvent;
-use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
-
-use Doctrine\ORM\Mapping\Driver\XmlDriver;
 
 class Module implements
     Feature\AutoloaderProviderInterface,
     Feature\BootstrapListenerInterface,
     Feature\ConfigProviderInterface,
-    Feature\ControllerProviderInterface,
     Feature\ServiceProviderInterface
 {
     public function getAutoloaderConfig()
@@ -111,32 +106,6 @@ class Module implements
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
-    }
-
-    public function getControllerConfig()
-    {
-        return array(
-            'factories' => array(
-                'Soflomo\Blog\Controller\ArticleController' => function($sm) {
-                    $repository = $sm->getServiceLocator()->get('Soflomo\Blog\Repository\Article');
-                    $options    = $sm->getServiceLocator()->get('Soflomo\Blog\Options\ModuleOptions');
-                    $controller = new Controller\ArticleController($repository, $options);
-
-                    return $controller;
-                },
-
-                // ADMIN CONTROLLERS
-
-                'Soflomo\BlogAdmin\Controller\ArticleController' => function($sm) {
-                    $service    = $sm->getServiceLocator()->get('Soflomo\BlogAdmin\Service\Article');
-                    $form       = $sm->getServiceLocator()->get('Soflomo\BlogAdmin\Form\Article');
-                    $options    = $sm->getServiceLocator()->get('Soflomo\Blog\Options\ModuleOptions');
-                    $controller = new BlogAdmin\Controller\ArticleController($service, $form, $options);
-
-                    return $controller;
-                },
-            ),
-        );
     }
 
     public function getServiceConfig()

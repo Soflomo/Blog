@@ -232,6 +232,13 @@ return array(
         ),
     ),
 
+    'controllers' => array(
+        'factories' => array(
+            'Soflomo\Blog\Controller\ArticleController'      => 'Soflomo\Blog\Factory\ArticleControllerFactory',
+            'Soflomo\BlogAdmin\Controller\ArticleController' => 'Soflomo\BlogAdmin\Factory\ArticleControllerFactory',
+        ),
+    ),
+
     'doctrine' => array(
         'driver' => array(
             'soflomo_blog' => array(
