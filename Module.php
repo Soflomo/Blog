@@ -149,42 +149,6 @@ class Module implements
 
                     return $options;
                 },
-                'Soflomo\Blog\Repository\Article' => function($sm) {
-                    $options       = $sm->get('Soflomo\Blog\Options\ModuleOptions');
-                    $class         = $options->getArticleEntityClass();
-                    $entityManager = $sm->get('Doctrine\ORM\EntityManager');
-                    $repository    = $entityManager->getRepository($class);
-
-                    return $repository;
-                },
-                'Soflomo\Blog\Repository\Blog' => function($sm) {
-                    $options       = $sm->get('Soflomo\Blog\Options\ModuleOptions');
-                    $class         = $options->getBlogEntityClass();
-                    $entityManager = $sm->get('Doctrine\ORM\EntityManager');
-                    $repository    = $entityManager->getRepository($class);
-
-                    return $repository;
-                },
-
-                // ADMIN SERVICES
-
-                'Soflomo\BlogAdmin\Form\Article' => function($sm) {
-                    $hydrator = new ClassMethodsHydrator;
-                    $hydrator->addStrategy('publish_date', new DateTimeStrategy);
-
-                    $form = new BlogAdmin\Form\Article;
-                    $form->setHydrator($hydrator);
-
-                    return $form;
-                },
-                'Soflomo\BlogAdmin\Service\Article' => function($sm) {
-                    $em      = $sm->get('Doctrine\ORM\EntityManager');
-                    $blog    = $sm->get('Soflomo\Blog\Repository\Blog');
-                    $article = $sm->get('Soflomo\Blog\Repository\Article');
-                    $service = new BlogAdmin\Service\Article($em, $blog, $article);
-
-                    return $service;
-                },
             ),
         );
     }

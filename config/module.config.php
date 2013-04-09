@@ -222,6 +222,16 @@ return array(
         ),
     ),
 
+    'service_manager' => array(
+        'factories' => array(
+            'Soflomo\Blog\Repository\Article'   => 'Soflomo\Blog\Factory\ArticleRepositoryFactory',
+            'Soflomo\Blog\Repository\Blog'      => 'Soflomo\Blog\Factory\BlogRepositoryFactory',
+
+            'Soflomo\BlogAdmin\Form\Article'    => 'Soflomo\BlogAdmin\Factory\ArticleFormFactory',
+            'Soflomo\BlogAdmin\Service\Article' => 'Soflomo\BlogAdmin\Factory\ArticleServiceFactory',
+        ),
+    ),
+
     'doctrine' => array(
         'driver' => array(
             'soflomo_blog' => array(
