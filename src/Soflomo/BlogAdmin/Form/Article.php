@@ -103,12 +103,14 @@ class Article extends Form implements
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'stringtrim'),
+                    array('name' => 'htmlpurifier'),
                 ),
             ),
             'body'  => array(
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'stringtrim'),
+                    array('name' => 'htmlpurifier'),
                 ),
             ),
             'publish_date' => array(
