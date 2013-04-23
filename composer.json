@@ -22,7 +22,7 @@
         "zf-commons/zfc-admin": ">=0.1.1",
         "soflomo/common": ">=0.4.0",
         "soflomo/purifier": ">=0.1.0",
-        "bacon/bacon-string-utils": "dev-master"
+        "bacon/bacon-string-utils": ">=1.0.0"
     },
     "autoload": {
         "psr-0": {
