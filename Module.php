@@ -51,6 +51,7 @@ use Zend\Mvc\MvcEvent;
 
 class Module implements
     Feature\AutoloaderProviderInterface,
+    Feature\DependencyIndicatorInterface,
     Feature\BootstrapListenerInterface,
     Feature\ConfigProviderInterface,
     Feature\ServiceProviderInterface
@@ -67,6 +68,15 @@ class Module implements
                     __NAMESPACE__ . 'Admin' => __DIR__ . '/src/Soflomo/BlogAdmin',
                 ),
             ),
+        );
+    }
+    public function getModuleDependencies()
+    {
+        return array(
+            'DoctrineModule',
+            'DoctrineORMModule',
+            'Soflomo\Common',
+            'Soflomo\Purifier',
         );
     }
 
