@@ -14,6 +14,6 @@
 
 <article>
     <h1><?php echo $this->escapeHtml($article->getTitle())?></h1>
-    <p><?php echo $this->escapeHtml($article->getLead())?></p>
-    <p><?php echo $this->escapeHtml($article->getBody())?></p>
+    <p><?php echo $article->getLead()?></p>
+    <p><?php echo $article->getBody()?></p>
 </article>

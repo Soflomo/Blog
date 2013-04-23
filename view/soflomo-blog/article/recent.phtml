@@ -15,6 +15,6 @@
         ))?>">
             <?php echo $this->escapeHtml($article->getTitle())?>
         </a></h2>
-        <p><?php echo $this->escapeHtml($article->getLead())?></p>
+        <p><?php echo $article->getLead()?></p>
     </article>
 <?php endforeach ?>
