@@ -97,7 +97,7 @@ class Article extends Form implements
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'stringtrim'),
-            ),
+                ),
             ),
             'lead'  => array(
                 'required' => false,
