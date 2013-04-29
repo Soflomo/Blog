@@ -163,18 +163,20 @@ class ArticleController extends AbstractActionController
 
     public function feedAction()
     {
+        $blog     = $this->getBlog();
         $limit    = $this->getOptions()->getFeedListingLimit();
-        $articles = $this->getRepository()->findRecent($limit);
+        $articles = $this->getArticleRepository()->findRecent($blog, $limit);
 
         $model = new FeedModel;
         $model->setOption('feed_type', $this->params('type', 'rss'));
 
         // Convert articles listing into feed
-        $model->title       = 'Soflomo Blog';              // Get ensemble page title
-        $model->description = 'Blog for testing purposes'; // Get ensemble page description
-        $model->link        = $this->url()->fromRoute('blog', array(), array('force_canonical' => true));
+        $page = $this->getPage();
+        $model->title       = $page->getMetaData()->getDescriptiveTitle();
+        $model->description = $page->getMetaData()->getDescription() ?: sprintf(self::DEFAULT_FEED_DESCRIPTION, $page->getMetaData()->getTitle());
+        $model->link        = $this->url()->fromRoute('/', array(), array('force_canonical' => true));
         $model->feed_link   = array(
-            'link' => $this->url()->fromRoute('blog/feed', array(), array('force_canonical' => true)),
+            'link' => $this->url()->fromRoute('/feed', array(), array('force_canonical' => true)),
             'type' => $this->params('type', 'rss'),
         );
 
