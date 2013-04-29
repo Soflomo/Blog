@@ -118,6 +118,13 @@ class ArticleController extends AbstractActionController
         $blog    = $this->getBlog();
         $article = $this->getArticle($blog);
 
+        $this->addPage(array(
+            'label'  => $article->getTitle(),
+            'route'  => 'zfcadmin/blog/article/view',
+            'params' => array('blog'   => $blog->getSlug(), 'article' => $article->getId()),
+            'active' => true,
+        ));
+
         return array(
             'blog'    => $blog,
             'article' => $article,
@@ -145,6 +152,13 @@ class ArticleController extends AbstractActionController
             }
         }
 
+        $this->addPage(array(
+            'label'  => 'New article',
+            'route'  => 'zfcadmin/blog/article/create',
+            'params' => array('blog'   => $blog->getSlug()),
+            'active' => true,
+        ));
+
         return array(
             'blog'    => $blog,
             'form'    => $form,
@@ -171,6 +185,21 @@ class ArticleController extends AbstractActionController
                 ));
             }
         }
+
+        $this->addPage(array(
+            'label'  => $article->getTitle(),
+            'route'  => 'zfcadmin/blog/article/view',
+            'params' => array('blog'   => $blog->getSlug(), 'article' => $article->getId()),
+            'active' => true,
+            'pages' => array(
+                array(
+                    'label'  => 'Update article',
+                    'route'  => 'zfcadmin/blog/article/update',
+                    'params' => array('blog'   => $blog->getSlug(), 'article' => $article->getId()),
+                    'active' => true,
+                ),
+            ),
+        ));
 
         return array(
             'blog'    => $blog,
@@ -231,5 +260,28 @@ class ArticleController extends AbstractActionController
         }
 
         return $article;
+    }
+
+    protected function addPage(array $config = array())
+    {
+        $admin = $this->getServiceLocator()->get('admin_navigation');
+        $found = false;
+
+        // We need to query the page ourselves as
+        // $admin->findOneByRoute('zfcadmin/blog')
+        // does not load the page by reference
+
+        foreach ($admin->getPages() as $page) {
+            if ($page->getRoute() === 'zfcadmin/blog') {
+                $found = true;
+                break;
+            }
+        }
+
+        if (!$found) {
+            return;
+        }
+
+        $page->addPage($config);
     }
 }
