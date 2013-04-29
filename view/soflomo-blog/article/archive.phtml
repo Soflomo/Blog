@@ -10,7 +10,7 @@
 <?php if (count($this->paginator)): ?>
 <ul>
 <?php foreach ($this->paginator as $article): ?>
-    <li><a href="<?php echo $this->url('blog/view', array(
+    <li><a href="<?php echo $this->url('/view', array(
         'article' => $article->getId(),
         'slug'    => $this->slug($article->getTitle()),
     ))?>">
@@ -22,4 +22,4 @@
 
 <?php echo $this->paginationControl($this->paginator,
                                     'Sliding',
-                                    'soflomo-blog/pagination/control', array('route' => 'blog/archive')); ?>
+                                    'soflomo-blog/pagination/control', array('route' => '/archive')); ?>

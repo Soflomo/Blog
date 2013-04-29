@@ -55,12 +55,10 @@ return array(
         ),
     ),
 
-    'router' => array(
+    'ensemble_kernel' => array(
         'routes' => array(
             'blog' => array(
-                'type'    => 'literal',
                 'options' => array(
-                    'route'    => '/blog',
                     'defaults' => array(
                         'controller' => 'Soflomo\Blog\Controller\ArticleController',
                         'action'     => 'recent',
@@ -122,7 +120,11 @@ return array(
                     ),
                 ),
             ),
+        ),
+    ),
 
+    'router' => array(
+        'routes' => array(
             'zfcadmin' => array(
                 'child_routes' => array(
                     'blog' => array(

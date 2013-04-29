@@ -48,9 +48,10 @@ class ArticleControllerFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $sl)
     {
-        $repository = $sl->getServiceLocator()->get('Soflomo\Blog\Repository\Article');
-        $options    = $sl->getServiceLocator()->get('Soflomo\Blog\Options\ModuleOptions');
-        $controller = new ArticleController($repository, $options);
+        $blogRepo    = $sl->getServiceLocator()->get('Soflomo\Blog\Repository\Blog');
+        $articleRepo = $sl->getServiceLocator()->get('Soflomo\Blog\Repository\Article');
+        $options     = $sl->getServiceLocator()->get('Soflomo\Blog\Options\ModuleOptions');
+        $controller  = new ArticleController($blogRepo, $articleRepo, $options);
 
         return $controller;
     }

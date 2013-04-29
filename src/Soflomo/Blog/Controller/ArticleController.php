@@ -45,36 +45,52 @@ namespace Soflomo\Blog\Controller;
 
 use DateTime;
 use BaconStringUtils\Slugifier;
+
 use Soflomo\Blog\Exception;
 use Soflomo\Blog\Options\ModuleOptions;
 use Soflomo\Blog\Repository\Article as ArticleRepository;
+use Doctrine\ORM\EntityRepository   as BlogRepository;
+
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\FeedModel;
 
 class ArticleController extends AbstractActionController
 {
+    const DEFAULT_FEED_DESCRIPTION = 'Blog feed of %s';
+
     /**
      * @var ArticleRepository
      */
-    protected $repository;
+    protected $articleRepository;
+
+    /**
+     * @var  BlogRepository
+     */
+    protected $blogRepository;
 
     /**
      * @var ModuleOptions
      */
     protected $options;
 
-    public function __construct(ArticleRepository $repository, ModuleOptions $options = null)
+    public function __construct(BlogRepository $blogRepository, ArticleRepository $articleRepository, ModuleOptions $options = null)
     {
-        $this->repository = $repository;
+        $this->blogRepository    = $blogRepository;
+        $this->articleRepository = $articleRepository;
 
         if (null !== $options) {
             $this->options = $options;
         }
     }
 
-    public function getRepository()
+    public function getBlogRepository()
     {
-        return $this->repository;
+        return $this->blogRepository;
+    }
+
+    public function getArticleRepository()
+    {
+        return $this->articleRepository;
     }
 
     public function getOptions()
@@ -88,8 +104,9 @@ class ArticleController extends AbstractActionController
 
     public function recentAction()
     {
+        $blog     = $this->getBlog();
         $limit    = $this->getOptions()->getRecentListingLimit();
-        $articles = $this->getRepository()->findRecent($limit);
+        $articles = $this->getArticleRepository()->findRecent($blog, $limit);
 
         return array(
             'articles' => $articles,
@@ -98,8 +115,9 @@ class ArticleController extends AbstractActionController
 
     public function viewAction()
     {
+        $blog    = $this->getBlog();
         $id      = $this->params('article');
-        $article = $this->getRepository()->find($id);
+        $article = $this->getArticleRepository()->findArticle($blog, $id);
 
         if (null === $article) {
             throw new Exception\ArticleNotFoundException(sprintf(
@@ -130,9 +148,10 @@ class ArticleController extends AbstractActionController
 
     public function archiveAction()
     {
+        $blog      = $this->getBlog();
         $page      = $this->params('page');
         $limit     = $this->getOptions()->getArchiveListingLimit();
-        $paginator = $this->getRepository()->getPaginator();
+        $paginator = $this->getArticleRepository()->getPaginator($blog);
 
         $paginator->setCurrentPageNumber($page)
                   ->setItemCountPerPage($limit);
@@ -172,7 +191,7 @@ class ArticleController extends AbstractActionController
                 'description'  => $article->getLead(),
                 'date_created' => $article->getPublishDate(),
                 'link'         => $this->url()->fromRoute(
-                    'blog/view',
+                    '/view',
                     array('article' => $article->getId(), 'slug' => $slugifier->slugify($article->getTitle())),
                     array('force_canonical' => true)
                 ),
@@ -200,12 +219,32 @@ class ArticleController extends AbstractActionController
         $from = new DateTime($this->params('from'));
         $to   = new DateTime($this->params('to'));
 
-        $articles = $this->getRepository()->findByRange($from, $to);
+        $articles = $this->getArticleRepository()->findByRange($from, $to);
 
         return array(
             'from'     => $from,
             'to'       => $to,
             'articles' => $articles,
         );
+    }
+
+    protected function getBlog()
+    {
+        $page = $this->getPage();
+        $id   = $page->getModuleId();
+        $blog = $this->getBlogRepository()->find($id);
+
+        if (null === $blog) {
+            throw new Exception\BlogNotFoundException(sprintf(
+                'Cannot find a blog with id "%s"', $id
+            ));
+        }
+
+        return $blog;
+    }
+
+    protected function getPage()
+    {
+        return $this->getEvent()->getParam('page');
     }
 }

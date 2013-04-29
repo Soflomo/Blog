@@ -46,25 +46,42 @@ namespace Soflomo\Blog\Repository;
 use DateTime;
 use Doctrine\ORM\EntityRepository;
 
+use Soflomo\Blog\Entity\Blog                              as BlogEntity;
+
 use Doctrine\ORM\Tools\Pagination\Paginator               as DoctrinePaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Zend\Paginator\Paginator;
 
 class Article extends EntityRepository
 {
-    public function findRecent($limit)
+    public function findRecent(BlogEntity $blog, $limit)
     {
         $qb = $this->createQueryBuilder('a');
-        $qb->andWhere('a.publishDate <= :now')
+        $qb->andWhere('a.blog = :blog')
+           ->setParameter('blog', $blog)
+           ->andWhere('a.publishDate <= :now')
            ->setParameter('now', new DateTime)
            ->setMaxResults($limit);
 
         return $qb->getQuery()->getResult();
     }
 
-    public function getPaginator()
+    public function findArticle(BlogEntity $blog, $id)
     {
         $qb = $this->createQueryBuilder('a');
+        $qb->andWhere('a.blog = :blog')
+           ->setParameter('blog', $blog)
+           ->andWhere('a.id = :id')
+           ->setParameter('id', $id);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    public function getPaginator(BlogEntity $blog)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb->andWhere('a.blog = :blog')
+           ->setParameter('blog', $blog);
 
         $paginator = new DoctrinePaginator($qb->getQuery());
         $adapter   = new PaginatorAdapter($paginator);
@@ -72,10 +89,12 @@ class Article extends EntityRepository
         return new Paginator($adapter);
     }
 
-    public function findByRange(DateTime $from, DateTime $to)
+    public function findByRange(BlogEntity $blog, DateTime $from, DateTime $to)
     {
         $qb = $this->createQueryBuilder('a');
-        $qb->andWhere('a.publishDate > :from')
+        $qb->andWhere('a.blog = :blog')
+           ->setParameter('blog', $blog)
+           ->andWhere('a.publishDate > :from')
            ->setParameter('from', $from)
            ->andWhere('a.publishDate < :to')
            ->setParameter('to', $to);
