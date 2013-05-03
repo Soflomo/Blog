@@ -81,7 +81,9 @@ class Article extends EntityRepository
     {
         $qb = $this->createQueryBuilder('a');
         $qb->andWhere('a.blog = :blog')
-           ->setParameter('blog', $blog);
+           ->setParameter('blog', $blog)
+           ->andWhere('a.publishDate <= :now')
+           ->setParameter('now', new DateTime);
 
         $paginator = new DoctrinePaginator($qb->getQuery());
         $adapter   = new PaginatorAdapter($paginator);
