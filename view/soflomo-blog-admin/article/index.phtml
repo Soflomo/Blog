@@ -9,16 +9,23 @@
 
 <h1>Blog listing</h1>
 
-<ul>
-    <?php foreach($articles as $article):?>
-    <li><a href="<?php echo $this->url('zfcadmin/blog/article/view', array(
-            'article' => $article->getId()
-        ), array(), true)?>">
-        <?php echo $this->escapeHtml($article->getTitle()) ?>
-    </a></li>
-    <?php endforeach ?>
-</ul>
-
 <a href="<?php echo $this->url('zfcadmin/blog/article/create', array(),array(),true)?>">
     New article
 </a>
+
+
+<?php if (count($this->paginator)): ?>
+<ul>
+<?php foreach ($this->paginator as $article): ?>
+    <li><a href="<?php echo $this->url('zfcadmin/blog/article/view', array(
+        'article' => $article->getId(),
+    ), array(), true)?>">
+        <?php echo $this->escapeHtml($article->getTitle())?>
+    </a></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<?php echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    'soflomo-blog-admin/pagination/control', array('route' => 'zfcadmin/blog', 'slug' => $blog->getSlug())); ?>

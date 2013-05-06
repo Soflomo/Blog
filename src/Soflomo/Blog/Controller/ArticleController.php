@@ -125,13 +125,6 @@ class ArticleController extends AbstractActionController
             ));
         }
 
-        $now = new DateTime;
-        if (!$article->isPublished() || $article->getPublishDate() > $now) {
-            throw new Exception\ArticleNotFoundException(sprintf(
-                'Article id "%s" is not published', $id
-            ));
-        }
-
         $slugifier = new Slugifier;
         $slug      = $slugifier->slugify($article->getTitle());
         if ($slug !== $this->params('slug') ) {
@@ -151,10 +144,7 @@ class ArticleController extends AbstractActionController
         $blog      = $this->getBlog();
         $page      = $this->params('page');
         $limit     = $this->getOptions()->getArchiveListingLimit();
-        $paginator = $this->getArticleRepository()->getPaginator($blog);
-
-        $paginator->setCurrentPageNumber($page)
-                  ->setItemCountPerPage($limit);
+        $paginator = $this->getArticleRepository()->findListing($blog, $page, $limit);
 
         return array(
             'paginator' => $paginator
