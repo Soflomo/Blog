@@ -218,10 +218,24 @@ class ArticleController extends AbstractActionController
 
     public function byDateAction()
     {
+        $blog = $this->getBlog();
         $from = new DateTime($this->params('from'));
         $to   = new DateTime($this->params('to'));
+        $now  = new DateTime;
 
-        $articles = $this->getArticleRepository()->findByRange($from, $to);
+        if ($from > $now || $to > $now) {
+            throw new Exception\InvalidArgumentException(
+                'The start and end dates must be in the past'
+            );
+        }
+
+        if ($from > $to) {
+            throw new Exception\InvalidArgumentException(
+                'The start date must be before the ending date'
+            );
+        }
+
+        $articles = $this->getArticleRepository()->findByRange($blog, $from, $to);
 
         return array(
             'from'     => $from,
