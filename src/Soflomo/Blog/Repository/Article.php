@@ -83,9 +83,8 @@ class Article extends EntityRepository
            ->setParameter('blog', $blog);
 
         if (true === $includeUnpublished) {
-            $qb->orderBy('a.publishDate', null)
-               ->addOrderBy('a.publishDate', 'DESC')
-               ->addOrderBy('a.id', 'DESC');
+            $qb->andWhere('a.publishDate IS NOT NULL');
+            $qb->orderBy('a.publishDate', 'DESC');
         }
 
         $paginator = $this->getPaginator($qb->getQuery());
@@ -93,6 +92,17 @@ class Article extends EntityRepository
                   ->setItemCountPerPage($limit);
 
         return $paginator;
+    }
+
+    public function findUnpublished(BlogEntity $blog)
+    {
+        $qb = $this->createQueryBuilder('a', false);
+        $qb->andWhere('a.blog = :blog')
+           ->setParameter('blog', $blog)
+           ->andWhere('a.publishDate IS NULL')
+           ->orderBy('a.id');
+
+        return $qb->getQuery()->getResult();
     }
 
     public function getPaginator(Query $query)
