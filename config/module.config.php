@@ -47,6 +47,8 @@ return array(
 
         'recent_listing_limit'  => 10,
         'archive_listing_limit' => 10,
+        'feed_listing_limit'    => 10,
+        'admin_listing_limit'   => 10,
 
         'feed_generator'        => array(
             'name'    => 'Ensemble blog',
@@ -130,13 +132,15 @@ return array(
                     'blog' => array(
                         'type'    => 'segment',
                         'options' => array(
-                            'route'    => '/blog/:blog',
+                            'route'    => '/blog/:blog[/:page]',
                             'defaults' => array(
                                 'controller' => 'Soflomo\BlogAdmin\Controller\ArticleController',
                                 'action'     => 'index',
+                                'page'       => '1',
                             ),
                             'constraints' => array(
-                                'blog' => '[a-zA-Z0-9-_]+'
+                                'blog' => '[a-zA-Z0-9-_]+',
+                                'page' => '[0-9]+',
                             ),
                         ),
                         'may_terminate' => true,

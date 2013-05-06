@@ -45,6 +45,7 @@ namespace Soflomo\Blog\Repository;
 
 use DateTime;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 use Soflomo\Blog\Entity\Blog                              as BlogEntity;
 
@@ -59,8 +60,6 @@ class Article extends EntityRepository
         $qb = $this->createQueryBuilder('a');
         $qb->andWhere('a.blog = :blog')
            ->setParameter('blog', $blog)
-           ->andWhere('a.publishDate <= :now')
-           ->setParameter('now', new DateTime)
            ->setMaxResults($limit);
 
         return $qb->getQuery()->getResult();
@@ -77,15 +76,28 @@ class Article extends EntityRepository
         return $qb->getQuery()->getOneOrNullResult();
     }
 
-    public function getPaginator(BlogEntity $blog)
+    public function findListing(BlogEntity $blog, $page, $limit, $includeUnpublished = false)
     {
-        $qb = $this->createQueryBuilder('a');
+        $qb = $this->createQueryBuilder('a', !$includeUnpublished);
         $qb->andWhere('a.blog = :blog')
-           ->setParameter('blog', $blog)
-           ->andWhere('a.publishDate <= :now')
-           ->setParameter('now', new DateTime);
+           ->setParameter('blog', $blog);
 
-        $paginator = new DoctrinePaginator($qb->getQuery());
+        if (true === $includeUnpublished) {
+            $qb->orderBy('a.publishDate', null)
+               ->addOrderBy('a.publishDate', 'DESC')
+               ->addOrderBy('a.id', 'DESC');
+        }
+
+        $paginator = $this->getPaginator($qb->getQuery());
+        $paginator->setCurrentPageNumber($page)
+                  ->setItemCountPerPage($limit);
+
+        return $paginator;
+    }
+
+    public function getPaginator(Query $query)
+    {
+        $paginator = new DoctrinePaginator($query);
         $adapter   = new PaginatorAdapter($paginator);
 
         return new Paginator($adapter);
@@ -104,11 +116,16 @@ class Article extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function createQueryBuilder($alias)
+    public function createQueryBuilder($alias, $constraints = true)
     {
         $qb = parent::createQueryBuilder($alias);
-        $qb->andWhere('a.publishDate IS NOT NULL')
-           ->orderBy('a.publishDate', 'DESC');
+
+        if (true === $constraints) {
+            $qb->andWhere('a.publishDate IS NOT NULL')
+               ->andWhere('a.publishDate <= :now')
+               ->setParameter('now', new DateTime)
+               ->orderBy('a.publishDate', 'DESC');
+        }
 
         return $qb;
     }

@@ -104,12 +104,14 @@ class ArticleController extends AbstractActionController
 
     public function indexAction()
     {
-        $blog     = $this->getBlog();
-        $articles = $this->getRepository()->findByBlog($blog);
+        $blog      = $this->getBlog();
+        $page      = $this->params('page');
+        $limit     = $this->getOptions()->getAdminListingLimit();
+        $paginator = $this->getRepository()->findListing($blog, $page, $limit, true);
 
         return array(
-            'blog'     => $blog,
-            'articles' => $articles,
+            'blog'      => $blog,
+            'paginator' => $paginator,
         );
     }
 
