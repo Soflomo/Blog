@@ -206,16 +206,6 @@ return array(
         ),
     ),
 
-    'navigation' => array(
-        'admin' => array(
-            'blog' => array(
-                'label'  => 'Blog',
-                'route'  => 'zfcadmin/blog',
-                'params' => array('blog' => 'default'),
-            ),
-        ),
-    ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
