@@ -68,6 +68,11 @@ class ModuleOptions extends AbstractOptions
     protected $feedListingLimit = 10;
 
     /**
+     * @var  int
+     */
+    protected $adminListingLimit = 10;
+
+    /**
      * @var  array
      */
     protected $feedGenerator;
@@ -145,6 +150,28 @@ class ModuleOptions extends AbstractOptions
     public function setFeedListingLimit($feedListingLimit)
     {
         $this->feedListingLimit = $feedListingLimit;
+        return $this;
+    }
+
+    /**
+     * Getter for adminListingLimit
+     *
+     * @return mixed
+     */
+    public function getAdminListingLimit()
+    {
+        return $this->adminListingLimit;
+    }
+
+    /**
+     * Setter for adminListingLimit
+     *
+     * @param mixed $adminListingLimit Value to set
+     * @return self
+     */
+    public function setAdminListingLimit($adminListingLimit)
+    {
+        $this->adminListingLimit = $adminListingLimit;
         return $this;
     }
 
