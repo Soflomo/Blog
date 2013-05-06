@@ -2,8 +2,9 @@
 /**
  * Listing of blog articles in admin
  *
- * @var $blog     Current blog
- * @var $articles Articles from this blog
+ * @var $blog        Current blog
+ * @var $paginator   Articles from this blog
+ * @var $unpublished Unpublished articles from this blog
  */
 ?>
 
@@ -13,6 +14,17 @@
     New article
 </a>
 
+<?php if (count($this->unpublished)): ?>
+<ul>
+<?php foreach ($this->unpublished as $article): ?>
+    <li><a href="<?php echo $this->url('zfcadmin/blog/article/view', array(
+        'article' => $article->getId(),
+    ), array(), true)?>">
+        <?php echo $this->escapeHtml($article->getTitle())?>
+    </a></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>
 
 <?php if (count($this->paginator)): ?>
 <ul>
