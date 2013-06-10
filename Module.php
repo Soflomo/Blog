@@ -116,4 +116,18 @@ class Module implements
     {
         return include __DIR__ . '/config/module.config.php';
     }
+
+    public function getViewHelperConfig()
+    {
+        return array(
+            'factories' => array(
+                'BlogArticleListing' => function($sl) {
+                    $blogRepository    = $sl->getServiceLocator()->get('Soflomo\Blog\Repository\Blog');
+                    $articleRepository = $sl->getServiceLocator()->get('Soflomo\Blog\Repository\Article');
+
+                    return new View\Helper\BlogArticleListing($blogRepository, $articleRepository);
+                }
+            ),
+        );
+    }
 }
