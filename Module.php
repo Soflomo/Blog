@@ -53,8 +53,7 @@ class Module implements
     Feature\AutoloaderProviderInterface,
     Feature\DependencyIndicatorInterface,
     Feature\BootstrapListenerInterface,
-    Feature\ConfigProviderInterface,
-    Feature\ServiceProviderInterface
+    Feature\ConfigProviderInterface
 {
     public function getAutoloaderConfig()
     {
@@ -116,19 +115,5 @@ class Module implements
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
-    }
-
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(
-                'Soflomo\Blog\Options\ModuleOptions' => function($sm) {
-                    $config  = $sm->get('config');
-                    $options = new Options\ModuleOptions($config['soflomo_blog']);
-
-                    return $options;
-                },
-            ),
-        );
     }
 }
