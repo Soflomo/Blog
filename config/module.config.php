@@ -77,7 +77,7 @@ return array(
                             ),
                             'constraints' => array(
                                 'article' => '[0-9]+',
-                                'slug'    => '[a-zA-Z0-9-_]+',
+                                'slug'    => '[a-zA-Z0-9-_.]+',
                             ),
                         ),
                     ),
