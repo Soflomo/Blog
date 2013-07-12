@@ -50,6 +50,11 @@ return array(
         'feed_listing_limit'    => 10,
         'admin_listing_limit'   => 10,
 
+        'sitemap'               => array(
+            'changefreq' => '',
+            'priority'   => '',
+        ),
+
         'feed_generator'        => array(
             'name'    => 'Ensemble blog',
             'version' => 'v0.1.0',
