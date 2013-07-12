@@ -87,7 +87,7 @@ class Module implements
 
         $this->attachTemplateListener($em);
         $this->attachFeedStrategy($em, $sm);
-        $this->attachNavigationMetadata($em);
+        $this->attachNavigationMetadata($em, $sm);
     }
 
     protected function attachTemplateListener($em)
@@ -113,11 +113,21 @@ class Module implements
         }, 10);
     }
 
-    protected function attachNavigationMetadata($em)
+    protected function attachNavigationMetadata($em, $sm)
     {
-        $em->attach('Ensemble\Kernel\Parser\Navigation', 'parsePage.blog', function($e) {
+        $em->attach('Ensemble\Kernel\Parser\Navigation', 'parsePage.blog', function($e) use ($sm) {
+            $config  = $sm->get('Config');
+            $options = $config['soflomo_blog']['sitemap'];
+
             $page = $e->getParam('navigation');
-            $page->set('changefreq', 'hourly');
+
+            if (null !== $options['changefreq']) {
+                $page->set('changefreq', $options['changefreq']);
+            }
+
+            if (null !== $options['priority']) {
+                $page->set('priority', $options['priority']);
+            }
         });
     }
 
