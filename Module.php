@@ -87,6 +87,7 @@ class Module implements
 
         $this->attachTemplateListener($em);
         $this->attachFeedStrategy($em, $sm);
+        $this->attachNavigationMetadata($em);
     }
 
     protected function attachTemplateListener($em)
@@ -99,7 +100,7 @@ class Module implements
         $em->attach($controllers, MvcEvent::EVENT_DISPATCH, array($listener, 'injectTemplate'), -80);
     }
 
-    public function attachFeedStrategy($em, $sm)
+    protected function attachFeedStrategy($em, $sm)
     {
         $controllers = array(
             'Soflomo\Blog\Controller\ArticleController',
@@ -110,6 +111,14 @@ class Module implements
 
             $view->getEventManager()->attach($feedStrategy, 10);
         }, 10);
+    }
+
+    protected function attachNavigationMetadata($em)
+    {
+        $em->attach('Ensemble\Kernel\Parser\Navigation', 'parsePage.blog', function($e) {
+            $page = $e->getParam('navigation');
+            $page->set('changefreq', 'hourly');
+        });
     }
 
     public function getConfig()
