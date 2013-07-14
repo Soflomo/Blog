@@ -1,0 +1,194 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: blog\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-14 20:01+0100\n"
+"PO-Revision-Date: 2013-07-14 20:01+0100\n"
+"Last-Translator: Jurre Antonisse <jurre@soflomo.com>\n"
+"Language-Team: \n"
+"Language: Dutch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: translate;_;gettext;gettext_noop;set­La­bel;set­Value;"
+"setMes­sage;setLe­gend;_refresh;append;prepend;headTitle\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: ../view\n"
+
+#: ../view/soflomo-blog/article/archive.phtml:9
+msgid "Blog Archive"
+msgstr "Blog archief"
+
+#: ../view/soflomo-blog/article/archive.phtml:12
+msgid "Page "
+msgstr "Pagina"
+
+#: ../view/soflomo-blog/article/listing.phtml:21
+msgid "Read More"
+msgstr "Lees meer"
+
+#: ../view/soflomo-blog/article/recent.phtml:18
+msgid "More posts"
+msgstr "Meer berichten"
+
+#: ../view/soflomo-blog/article/view.phtml:23
+msgid "Back to overview"
+msgstr "Terug naar overzicht"
+
+#: ../view/soflomo-blog/article/view.phtml:58
+msgid "Share on"
+msgstr "Deel op"
+
+#: ../view/soflomo-blog/pagination/control.phtml:11
+#: ../view/soflomo-blog/pagination/control.phtml:14
+#: ../view/soflomo-blog-admin/pagination/control.phtml:11
+#: ../view/soflomo-blog-admin/pagination/control.phtml:14
+msgid "Previous"
+msgstr "Vorige"
+
+#: ../view/soflomo-blog/pagination/control.phtml:35
+#: ../view/soflomo-blog/pagination/control.phtml:38
+#: ../view/soflomo-blog-admin/pagination/control.phtml:35
+#: ../view/soflomo-blog-admin/pagination/control.phtml:38
+msgid "Next"
+msgstr "Volgende"
+
+#: ../view/soflomo-blog-admin/article/create.phtml:14
+#: ../view/soflomo-blog-admin/article/index.phtml:19
+msgid "New article"
+msgstr "Nieuw artikel"
+
+#: ../view/soflomo-blog-admin/article/create.phtml:15
+#: ../view/soflomo-blog-admin/article/update.phtml:16
+#: ../view/soflomo-blog-admin/article/view.phtml:15
+msgid "Article overview"
+msgstr "Overzicht van artikelen"
+
+#: ../view/soflomo-blog-admin/article/form.phtml:40
+#: ../view/soflomo-blog-admin/article/form.phtml:51
+msgid "Save article"
+msgstr "Artikel opslaan"
+
+#: ../view/soflomo-blog-admin/article/form.phtml:41
+msgid "Title"
+msgstr "Titel"
+
+#: ../view/soflomo-blog-admin/article/form.phtml:42
+msgid "Lead"
+msgstr "Inleiding"
+
+#: ../view/soflomo-blog-admin/article/form.phtml:43
+msgid "Body"
+msgstr "Hoofdtekst"
+
+#: ../view/soflomo-blog-admin/article/form.phtml:45
+msgid "Publish date"
+msgstr "Publicatiedatum"
+
+#: ../view/soflomo-blog-admin/article/index.phtml:15
+msgid "Article listing"
+msgstr "Overzicht van artikelen"
+
+#: ../view/soflomo-blog-admin/article/index.phtml:23
+msgid "Unpublished articles"
+msgstr "Nog niet gepubliceerde artikelen"
+
+#: ../view/soflomo-blog-admin/article/index.phtml:27
+#: ../view/soflomo-blog-admin/article/index.phtml:60
+msgid "Name"
+msgstr "Naam"
+
+#: ../view/soflomo-blog-admin/article/index.phtml:28
+#: ../view/soflomo-blog-admin/article/index.phtml:62
+#: ../view/soflomo-blog-admin/article/update.phtml:21
+#: ../view/soflomo-blog-admin/article/view.phtml:20
+msgid "Preview"
+msgstr "Voorbeeld"
+
+#: ../view/soflomo-blog-admin/article/index.phtml:45
+#: ../view/soflomo-blog-admin/article/index.phtml:87
+msgid "preview"
+msgstr "voorbeeld"
+
+#: ../view/soflomo-blog-admin/article/index.phtml:56
+msgid "Published articles"
+msgstr "Gepubliceerde artikelen"
+
+#: ../view/soflomo-blog-admin/article/index.phtml:61
+msgid "Date"
+msgstr "Datum"
+
+#: ../view/soflomo-blog-admin/article/update.phtml:15
+#: ../view/soflomo-blog-admin/article/update.phtml:20
+#: ../view/soflomo-blog-admin/article/view.phtml:19
+msgid "Edit article"
+msgstr "Bewerk artikel"
+
+#: ../view/soflomo-blog-admin/article/view.phtml:14
+msgid "Preview article"
+msgstr "Bekijk artikel"
+
+#~ msgid "Green Film Making"
+#~ msgstr "Green Film Making"
+
+#~ msgid "News overview"
+#~ msgstr "Overzicht nieuwsberichten"
+
+#~ msgid "Image"
+#~ msgstr "Afbeelding"
+
+#~ msgid "Drag image to upload (or click)"
+#~ msgstr "Sleep afbeelding om te uploaden (of klik)"
+
+#~ msgid "Remove image"
+#~ msgstr "Afbeelding verwijderen"
+
+#~ msgid "Upload image"
+#~ msgstr "Afbeelding uploaden"
+
+#~ msgid "News"
+#~ msgstr "Nieuws"
+
+#~ msgid "Dismissal meetings"
+#~ msgstr "Onslaggesprekken"
+
+#~ msgid "Time: "
+#~ msgstr "Tijd: "
+
+#~ msgid "Ready to plan"
+#~ msgstr "Gereed om te plannen"
+
+#~ msgid "Mr %s"
+#~ msgstr "Dhr. %s"
+
+#~ msgid "Ms %s"
+#~ msgstr "Mevr. %s"
+
+#~ msgid "Waiting for meeting"
+#~ msgstr "Wachten op gesprek"
+
+#~ msgid "Patient tracking system DORA project"
+#~ msgstr "Patiëntenvolgsysteem DORA project"
+
+#~ msgid "Registered"
+#~ msgstr "Geregistreerd"
+
+#~ msgid "Admitted"
+#~ msgstr "Opgenomen"
+
+#~ msgid "Operation"
+#~ msgstr "Operatie"
+
+#~ msgid "Rest"
+#~ msgstr "Uitrusten"
+
+#~ msgid "Dismissed"
+#~ msgstr "Ontslag"
+
+#~ msgid "Book"
+#~ msgid_plural "Books"
+#~ msgstr[0] "Boek"
+#~ msgstr[1] "Boeken"
