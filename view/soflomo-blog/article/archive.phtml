@@ -4,22 +4,30 @@
  *
  * @var $paginator Zend\Paginator\Paginator
  */
+
+$this->headLink()->appendAlternate($this->url('/feed'), 'application/rss+xml', 'RSS Feed');
+$this->headTitle()->append('Blog Archive');
+
+if ($paginator) {
+    $this->headTitle()->append('Page ' . $paginator->getCurrentPageNumber());
+};
 ?>
-<h1>Blog</h1>
 
 <?php if (count($this->paginator)): ?>
-<ul>
+<div class="row">
 <?php foreach ($this->paginator as $article): ?>
-    <li><a href="<?php echo $this->url('/view', array(
-        'article' => $article->getId(),
-        'slug'    => $this->slug($article->getTitle()),
-    ))?>">
-        <?php echo $this->escapeHtml($article->getTitle())?>
-    </a></li>
+    <div class="large-6 columns margin-3">
+         <?= $this->render('soflomo-blog/article/listing')?>
+    </div>
 <?php endforeach; ?>
-</ul>
-<?php endif; ?>
+</div>
 
-<?php echo $this->paginationControl($this->paginator,
-                                    'Sliding',
-                                    'soflomo-blog/pagination/control', array('route' => '/archive')); ?>
+<div class="row">
+    <div class="large-6 columns">
+        <div class="blog-pagination">
+        <?= $this->paginationControl($this->paginator, 'Sliding',
+                                     'soflomo-blog/pagination/control', array('route' => '/archive')); ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

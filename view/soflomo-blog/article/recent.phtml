@@ -4,17 +4,17 @@
  *
  * @var $articles Array or recent articles
  */
+$this->headLink()->appendAlternate($this->url('/feed'), 'application/rss+xml', 'RSS Feed');
 ?>
-<h1>Blog</h1>
 
-<?php foreach ($articles as $article):?>
-    <article>
-        <h2><a href="<?php echo $this->url('/view', array(
-            'article' => $article->getId(),
-            'slug'    => $this->slug($article->getTitle()),
-        ))?>">
-            <?php echo $this->escapeHtml($article->getTitle())?>
-        </a></h2>
-        <p><?php echo $article->getLead()?></p>
-    </article>
-<?php endforeach ?>
+<div class="row">
+    <div class="large-6 columns margin-3">
+        <?= $this->render('soflomo-blog/article/listing', array('articles' => $left))?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="large-12 columns">
+        <a class="blog-pagination" href="<?= $this->url('/archive', array('page' => 2))?>"><?= $this->translate("More posts")?> &#x203A;</a>
+    </div>
+</div>
