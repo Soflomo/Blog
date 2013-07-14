@@ -4,12 +4,60 @@
  *
  * @var $article Article to be shown
  */
-
 $this->headTitle($this->escapeHtmlAttr($article->getTitle()));
+$this->headLink()->appendAlternate($this->url('/feed'), 'application/rss+xml', 'RSS Feed');
+$sharingUrl  = $this->url('/view', array('article' => $article->getId(), 'slug' => $this->slug($article->getTitle())), array('force_canonical' => true), true);
+
+$this->headMeta()->appendName('og:title', $article->getTitle())
+                 ->appendName('og:type', 'article')
+                 ->appendName('og:url', $sharingUrl)
+                 ->appendName('article:published_time', $article->getPublishDate()->format('c'))
+                 //->appendName('article:author', '')
+                 //->appendName('article:section', '')
+                 //->appendName('article:tag', '')
+                 ;
 ?>
 
-<article>
-    <h1><?php echo $this->escapeHtml($article->getTitle())?></h1>
-    <p><?php echo $article->getLead()?></p>
-    <p><?php echo $article->getBody()?></p>
-</article>
+<div class="row">
+    <div class="large-12 columns">
+        <a href="<?= $this->url('/') ?>" class="blog-back-link blog-pagination">&lsaquo;&emsp; <?= $this->translate("Back to overview")?></a>
+    </div>
+</div>
+<div class="row">
+    <article class="large-9 columns" itemscope itemtype="http://schema.org/Article">
+        <div class="padding">
+            <h1 itemprop="name"><?= $this->escapeHtml($article->getTitle())?></h1>
+            <div itemprop="articleBody">
+                <?= $article->getLead()?>
+
+                <div class="blog-body">
+                    <span id="more" class="blog-more-anchor"></span>
+                    <?= $article->getBody()?>
+                </div>
+            </div>
+
+            <footer>
+                <?
+                $facebook = 'http://facebook.com/sharer.php?' . http_build_query(array(
+                    's' => '100',
+                    'p' => array(
+                        'url'     => $sharingUrl,
+                        'title'   => $article->getTitle(),
+                        'summary' => strip_tags($article->getLead()),
+                    )
+                ));
+                $twitter = 'http://twitter.com?' . http_build_query(array(
+                    'status' => $article->getTitle() . ' ' . $sharingUrl
+                ));
+
+                ?>
+
+                <time class="blog-time inline" itemprop="dateCreated" datetime="<?= $article->getPublishDate()->format('c') ?>">
+                    <?= $this->dateFormat($article->getPublishDate() , IntlDateFormatter::MEDIUM);?>
+                </time>
+                <span class="right"><?= $this->translate("Share on")?> <a href="<?= $facebook?>">Facebook</a> or <a href="<?= $twitter?>">Twitter</a></span>
+                <a itemprop="url" href="<?= $sharingUrl?>" class="hidden">Permalink</a>
+            </footer>
+        </div>
+    </article>
+</div>
