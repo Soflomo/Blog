@@ -5,15 +5,27 @@
  * @var $blog    Current blog
  * @var $article Article from this blog
  */
+
+use IntlDateFormatter as Format;
+$this->plugin('translate')->setTranslatorTextDomain('blog');
 ?>
 
-<ul>
-    <li><a href="<?php echo $this->url('zfcadmin/blog', array('blog' => $blog->getSlug()))?>">Back to listing</a></li>
-    <li><a href="<?php echo $this->url('zfcadmin/blog/article/update', array(),array(),true)?>">Edit this article</a></li>
+<div class="page-header">
+    <h1><?= $this->translate("Preview article")?></h1>
+    <a href="<?php echo $this->url('zfcadmin/blog', array('blog' => $blog->getSlug()))?>">&larr; <?= $this->translate("Article overview")?></a>
+</div>
+
+<ul class="nav nav-pills">
+    <li><a href="<?php echo $this->url('zfcadmin/blog/article/update', array(),array(),true)?>"><?= $this->translate("Edit article")?></a></li>
+    <li class="active"><a href="#"><?= $this->translate("Preview")?></a></li>
 </ul>
 
-<article>
+<div class="row-fluid">
+<article class="blog-container">
     <h1><?php echo $this->escapeHtml($article->getTitle())?></h1>
-    <p><?php echo $this->escapeHtml($article->getLead())?></p>
-    <p><?php echo $this->escapeHtml($article->getBody())?></p>
+
+    <?php echo $article->getLead()?>
+    <?php echo $article->getBody()?>
+
 </article>
+</div>
