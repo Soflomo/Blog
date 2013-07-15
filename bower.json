@@ -1,0 +1,17 @@
+{
+  "name": "soflomo-blog",
+  "version": "0.1.0",
+  "main": "public/styles/blog.css",
+  "ignore": [
+    "config",
+    "scr",
+    "tests",
+    "view",
+    "composer.json",
+    "*.php"
+  ],
+  "dependencies": {
+    "bootstrap-datetimepicker": "2403664c00e5a7d5a9c21538de295934f747ee4f",
+    "redactor": "git@bitbucket.org:soflomo/redactor.git#9.0.3"
+  }
+}
