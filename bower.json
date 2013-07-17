@@ -4,7 +4,7 @@
   "main": "public/styles/blog.css",
   "ignore": [
     "config",
-    "scr",
+    "src",
     "tests",
     "view",
     "composer.json",
