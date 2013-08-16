@@ -3,7 +3,7 @@
       xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Soflomo\Blog\Entity\BlogBase">
+    <mapped-superclass name="Soflomo\Blog\Entity\AbstractBlog">
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO" />
         </id>
