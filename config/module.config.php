@@ -259,8 +259,8 @@ return array(
                 'resolvers' => array(
                     'Soflomo\Blog\Entity\BlogInterface'    => 'Soflomo\Blog\Entity\Blog',
                     'Soflomo\Blog\Entity\ArticleInterface' => 'Soflomo\Blog\Entity\Article',
-                )
-            )
-        )
+                ),
+            ),
+        ),
     ),
 );

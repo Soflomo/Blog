@@ -14,6 +14,6 @@
 
         <field name="publishDate" column="publish_date" type="datetime" unique="false" nullable="true" />
 
-        <many-to-one field="blog" target-entity="Soflomo\Blog\Entity\BlogInterface" nullable="false" />
+        <many-to-one field="blog" target-entity="Soflomo\Blog\Entity\BlogInterface" inversed-by="articles" nullable="false" />
     </mapped-superclass>
 </doctrine-mapping>
