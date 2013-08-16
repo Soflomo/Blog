@@ -43,6 +43,6 @@
 
 namespace Soflomo\Blog\Entity;
 
-class Blog extends BlogBase
+class Blog extends AbstractBlog
 {
 }
