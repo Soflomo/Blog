@@ -46,7 +46,7 @@ namespace Soflomo\Blog\Entity;
 use DateTime;
 use Soflomo\Blog\Exception\InvalidArgumentException;
 
-class ArticleBase implements ArticleInterface
+abstract class AbstractArticle implements ArticleInterface
 {
     /**
      * @var int

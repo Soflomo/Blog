@@ -43,10 +43,11 @@
 
 namespace Soflomo\Blog\Entity;
 
-class BlogBase implements BlogInterface
+abstract class AbstractBlog implements BlogInterface
 {
     protected $id;
     protected $slug;
+    protected $articles;
 
     /**
      * Getter for id
@@ -77,6 +78,28 @@ class BlogBase implements BlogInterface
     public function setSlug($slug)
     {
         $this->slug = (string) $slug;
+        return $this;
+    }
+
+    /**
+     * Getter for articles
+     *
+     * @return mixed
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    /**
+     * Setter for articles
+     *
+     * @param mixed $articles Value to set
+     * @return self
+     */
+    public function setArticles($articles)
+    {
+        $this->articles = $articles;
         return $this;
     }
 }

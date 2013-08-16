@@ -3,7 +3,7 @@
       xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Soflomo\Blog\Entity\ArticleBase" repository-class="Soflomo\Blog\Repository\Article">
+    <mapped-superclass name="Soflomo\Blog\Entity\AbstractArticle" repository-class="Soflomo\Blog\Repository\Article">
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO" />
         </id>
@@ -14,6 +14,6 @@
 
         <field name="publishDate" column="publish_date" type="datetime" unique="false" nullable="true" />
 
-        <many-to-one field="blog" target-entity="Soflomo\Blog\Entity\Blog" nullable="false" />
+        <many-to-one field="blog" target-entity="Soflomo\Blog\Entity\BlogInterface" nullable="false" />
     </mapped-superclass>
 </doctrine-mapping>
