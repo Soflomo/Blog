@@ -211,6 +211,23 @@ return array(
         ),
     ),
 
+    'ensemble_admin' => array(
+        'routes' => array(
+            'blog' => array(
+                'blog' => array(
+                    'type' => 'literal',
+                    'options' => array(
+                        'route' => '/',
+                        'defaults' => array(
+                            'controller' => 'Soflomo\BlogAdmin\Controller\IndexController',
+                            'action'     => 'index'
+                        ),
+                    )
+                ),
+            ),
+        ),
+    ),
+
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
@@ -239,6 +256,7 @@ return array(
         'factories' => array(
             'Soflomo\Blog\Controller\ArticleController'      => 'Soflomo\Blog\Factory\ArticleControllerFactory',
             'Soflomo\BlogAdmin\Controller\ArticleController' => 'Soflomo\BlogAdmin\Factory\ArticleControllerFactory',
+            'Soflomo\BlogAdmin\Controller\IndexController'   => 'Soflomo\BlogAdmin\Factory\IndexControllerFactory',
         ),
     ),
 
