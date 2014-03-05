@@ -66,7 +66,7 @@ abstract class AbstractArticle implements ArticleInterface
     protected $publishDate;
 
     protected $blog;
-    protected $categories = array();
+    protected $category;
 
     /**
      * Getter for id
@@ -198,84 +198,25 @@ abstract class AbstractArticle implements ArticleInterface
         return $this;
     }
 
-    // /**
-    //  * Getter for categories
-    //  *
-    //  * @return array
-    //  */
-    // public function getCategories()
-    // {
-    //     return $this->categories;
-    // }
+    /**
+     * Getter for category
+     *
+     * @return CategoryInterface
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
 
-    // /**
-    //  * Setter for categories
-    //  *
-    //  * @param array $categories Value to set
-    //  * @return self
-    //  */
-    // public function setCategories(array $categories)
-    // {
-    //     $this->categories = $categories;
-    //     return $this;
-    // }
-
-    // /**
-    //  * Add single category
-    //  *
-    //  * @param CategoryInterface $category Value to set
-    //  * @return self
-    //  */
-    // public function addCategory(CategoryInterface $category)
-    // {
-    //     if (!$this->hasCategory($category)) {
-    //         $this->categories[] = $category;
-    //     }
-
-    //     return $this;
-    // }
-
-    // /**
-    //  * Remove single category
-    //  *
-    //  * @param CategoryInterface $category Value to remove
-    //  * @return self
-    //  */
-    // public function removeCategory(CategoryInterface $category)
-    // {
-    //     $i = null;
-    //     foreach ($this->categories as $key => $item) {
-    //         if ($item->getId() === $category->getId()) {
-    //             $i = $key;
-    //             break;
-    //         }
-    //     }
-
-    //     if (null === $i) {
-    //         throw new InvalidArgumentException(sprintf(
-    //             'Cannot remove category "%s" as article is not listed in this category',
-    //             $category->getId()
-    //         ));
-    //     }
-
-    //     unset($this->categories[$i]);
-    //     return $this;
-    // }
-
-    // /**
-    //  * Search if article is in given category
-    //  *
-    //  * @param  CategoryInterface $category Category to search for
-    //  * @return boolean                     Whether category is found
-    //  */
-    // public function hasCategory(CategoryInterface $category)
-    // {
-    //     foreach ($this->categories as $item) {
-    //         if ($item->getId() === $category->getId()) {
-    //             return true;
-    //         }
-    //     }
-
-    //     return false;
-    // }
+    /**
+     * Setter for category
+     *
+     * @param CategoryInterface $category Value to set
+     * @return self
+     */
+    public function setCategory(CategoryInterface $category)
+    {
+        $this->category = $category;
+        return $this;
+    }
 }
