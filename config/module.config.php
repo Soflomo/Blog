@@ -42,13 +42,15 @@
 
 return array(
     'soflomo_blog' => array(
-        'blog_entity_class'    => 'Soflomo\Blog\Entity\Blog',
-        'article_entity_class' => 'Soflomo\Blog\Entity\Article',
+        'blog_entity_class'     => 'Soflomo\Blog\Entity\Blog',
+        'category_entity_class' => 'Soflomo\Blog\Entity\Category',
+        'article_entity_class'  => 'Soflomo\Blog\Entity\Article',
 
-        'recent_listing_limit'  => 10,
-        'archive_listing_limit' => 10,
-        'feed_listing_limit'    => 10,
-        'admin_listing_limit'   => 10,
+        'recent_listing_limit'   => 10,
+        'category_listing_limit' => 10,
+        'archive_listing_limit'  => 10,
+        'feed_listing_limit'     => 10,
+        'admin_listing_limit'    => 10,
 
         'sitemap'               => array(
             'changefreq' => '',
