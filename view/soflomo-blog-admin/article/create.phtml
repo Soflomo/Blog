@@ -5,21 +5,18 @@
  * @var $blog    Current blog
  * @var $form    Form to edit article
  */
+
+use IntlDateFormatter as Format;
+$this->plugin('translate')->setTranslatorTextDomain('blog');
 ?>
 
-<h1>New article</h1>
+<div class="page-header">
+    <h1><?= $this->translate("New article")?></h1>
+    <a href="<?php echo $this->url('zfcadmin/blog', array('blog' => $blog->getSlug()))?>">&larr; <?= $this->translate("Article overview")?></a>
+</div>
 
-<?php $form->prepare()?>
-<?php echo $this->form()->openTag($form)?>
-    <?php echo $this->formRow($form->get('title'))?>
-    <?php echo $this->formRow($form->get('lead')->setAttributes(array(
-        'cols' => 50,
-        'rows' => 10,
-    )))?>
-    <?php echo $this->formRow($form->get('body')->setAttributes(array(
-        'cols' => 50,
-        'rows' => 10,
-    )))?>
-    <?php echo $this->formRow($form->get('publish_date')) ?>
-    <button type="submit">Save</button>
-<?php echo $this->form()->closeTag()?>
+<div class="row-fluid">
+    <div class="editor blog-container">
+        <?= $this->render('soflomo-blog-admin/article/form')?>
+    </div>
+</div>

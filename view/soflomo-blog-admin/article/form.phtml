@@ -1,0 +1,52 @@
+<?php
+/**
+ * @var $blog    Current blog
+ * @var $article Article from this blog
+ * @var $form    Form to edit article
+ */
+
+use IntlDateFormatter as Format;
+$this->plugin('translate')->setTranslatorTextDomain('blog');
+
+$this->headLink()->appendStylesheet($this->basePath() . '/components/redactor/redactor.css')
+                 ->appendStylesheet($this->basePath() . '/components/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css');
+
+$this->inlineScript()->appendFile($this->basePath() .'/components/redactor/redactor.min.js')
+                     ->appendFile($this->basePath() .'/components/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
+                     ->appendScript("
+                        $(document).ready(
+                            function()
+                            {
+                                $('.redactor').redactor({
+                                    tabFocus: false,
+                                    toolbarFixedBox: true,
+                                    buttons: ['formatting', '|', 'bold', 'italic', '|', 'unorderedlist', 'orderedlist', 'outdent', 'indent', '|','image', 'video', 'file', 'link', '|', 'html']
+                                });
+                            }
+                        );
+                     ")
+                     ->appendScript("
+                        $(function() {
+                            $('.blog-date').datetimepicker({
+                                language: 'en'
+                            });
+                        });
+                    ");
+?>
+
+
+<?  $form->prepare()?>
+<?= $this->form()->openTag($form)?>
+    <button type="submit" class="btn blog-save-button top pull-right"><?= $this->translate("Save article")?></button>
+    <?= $this->formRow($form->get('title')->setAttribute('class', 'span8')->setLabel( $this->translate("Title") ))?>
+    <?= $this->formRow($form->get('lead')->setAttribute('class', 'redactor')->setLabel( $this->translate("Lead") ))?>
+    <?= $this->formRow($form->get('body')->setAttribute('class', 'redactor')->setLabel( $this->translate("Body") ))?>
+    <div class="input-append date blog-date">
+        <?= $this->formLabel($form->get('publish_date')->setLabel( $this->translate("Publish date") ))?>
+        <?= $this->formElement($form->get('publish_date')->setAttribute('data-format', 'yyyy-MM-dd hh:mm'))?>
+        <span class="add-on">
+            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+        </span>
+    </div>
+    <button type="submit" class="btn blog-save-button pull-right"><?= $this->translate("Save article")?></button>
+<?= $this->form()->closeTag()?>

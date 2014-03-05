@@ -1,0 +1,29 @@
+<?php
+/**
+ * Rendering of a listing of blog articles
+ *
+ * @var $articles Array or recent articles
+ */
+use Soflomo\Image\Model\Entity\Image;
+?>
+
+<? foreach ($articles as $article):?>
+    <article class="blog-post" itemscope itemtype="http://schema.org/Article">
+        <? $urlBlogArticle = $this->url('/view', array('article' => $article->getId(), 'slug'    => $this->slug($article->getTitle())))?>
+
+        <h2><a href="<?= $urlBlogArticle?>"><span itemprop="name"><?= $this->escapeHtml($article->getTitle())?></span></a></h2>
+        <p><?= $article->getLead()?></p>
+
+        <? if(($image = $article->getImage()) instanceof Image):?>
+            <p><img src="<?= $this->image($image, 'blog') ?>" download="<?= $image->getTitle() ?>" title="<?= $image->getTitle() ?>" alt="<?= $image->getAlt() ?>"></p>
+        <? endif?>
+
+        <p><a itemprop="url" href="<?= $urlBlogArticle?>#more" title="<?= $this->escapeHtml($article->getTitle())?>"><?= $this->translate("Read More")?> ...</a></p>
+
+        <footer>
+            <time class="hidden" itemprop="dateCreated" datetime="<?= $article->getPublishDate()->format('c') ?>">
+                <?= $this->dateFormat($article->getPublishDate() , IntlDateFormatter::MEDIUM);?>
+            </time>
+        </footer>
+    </article>
+<? endforeach ?>

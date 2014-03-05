@@ -6,38 +6,93 @@
  * @var $paginator   Articles from this blog
  * @var $unpublished Unpublished articles from this blog
  */
+
+use IntlDateFormatter as Format;
+$this->plugin('translate')->setTranslatorTextDomain('blog');
 ?>
 
-<h1>Blog listing</h1>
+<div class="page-header">
+    <h1><?= $this->translate("Article listing")?></h1>
+</div>
 
-<a href="<?php echo $this->url('zfcadmin/blog/article/create', array(),array(),true)?>">
-    New article
+<a class="btn" href="<?php echo $this->url('zfcadmin/blog/article/create', array(),array(),true)?>">
+    <span class="icon-plus"></span> <?= $this->translate("New article")?>
 </a>
 
-<?php if (count($this->unpublished)): ?>
-<ul>
-<?php foreach ($this->unpublished as $article): ?>
-    <li><a href="<?php echo $this->url('zfcadmin/blog/article/view', array(
-        'article' => $article->getId(),
-    ), array(), true)?>">
-        <?php echo $this->escapeHtml($article->getTitle())?>
-    </a></li>
-<?php endforeach; ?>
-</ul>
-<?php endif; ?>
+<?php if (count($unpublished)): ?>
+<h3><?= $this->translate("Unpublished articles")?></h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th><?= $this->translate("Name")?></th>
+            <th><?= $this->translate("Preview")?></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach($unpublished as $article):?>
+    <tr>
+        <td>
+            <a href="<?php echo $this->url('zfcadmin/blog/article/update', array(
+                'article' => $article->getId()
+                ), array(), true)?>">
+                <?php echo $this->escapeHtml($article->getTitle()) ?>
+            </a>
+        </td>
+        <td>
+            <a href="<?php echo $this->url('zfcadmin/blog/article/view', array(
+                'article' => $article->getId()
+                ), array(), true)?>">
+                <?= $this->translate("preview")?>
+            </a>
+        </td>
+    </tr>
+    <?php endforeach ?>
+    </tbody>
+</table>
+<?php endif ?>
 
-<?php if (count($this->paginator)): ?>
-<ul>
-<?php foreach ($this->paginator as $article): ?>
-    <li><a href="<?php echo $this->url('zfcadmin/blog/article/view', array(
-        'article' => $article->getId(),
-    ), array(), true)?>">
-        <?php echo $this->escapeHtml($article->getTitle())?>
-    </a></li>
-<?php endforeach; ?>
-</ul>
-<?php endif; ?>
+
+<?php if (count($paginator)): ?>
+<h3><?= $this->translate("Published articles")?></h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th><?= $this->translate("Name")?></th>
+            <th><?= $this->translate("Date")?></th>
+            <th><?= $this->translate("Preview")?></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach($paginator as $article):?>
+    <tr>
+        <td>
+            <a href="<?php echo $this->url('zfcadmin/blog/article/update', array(
+                'article' => $article->getId()
+                ), array(), true)?>">
+                <?php echo $this->escapeHtml($article->getTitle()) ?>
+            </a>
+        </td>
+
+        <td>
+            <a href="<?php echo $this->url('zfcadmin/blog/article/update', array(
+                'article' => $article->getId()
+                ), array(), true)?>">
+                <?php echo $this->dateFormat($article->getPublishDate() , IntlDateFormatter::MEDIUM);?>
+            </a>
+        </td>
+        <td>
+            <a href="<?php echo $this->url('zfcadmin/blog/article/view', array(
+                'article' => $article->getId()
+                ), array(), true)?>">
+                <?= $this->translate("preview")?>
+            </a>
+        </td>
+    </tr>
+    <?php endforeach ?>
+    </tbody>
+</table>
 
 <?php echo $this->paginationControl($this->paginator,
                                     'Sliding',
                                     'soflomo-blog-admin/pagination/control', array('route' => 'zfcadmin/blog', 'slug' => $blog->getSlug())); ?>
+<?php endif ?>
