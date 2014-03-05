@@ -151,6 +151,19 @@ class ArticleController extends AbstractActionController
         );
     }
 
+    public function categoryAction()
+    {
+        $blog      = $this->getBlog();
+        $category  = $this->params('category');
+        $page      = $this->params('page');
+        $limit     = $this->getOptions()->getCategoryListingLimit();
+        $paginator = $this->getArticleRepository()->findCategoryListing($blog, $category, $page, $limit);
+
+        return array(
+            'paginator' => $paginator
+        );
+    }
+
     public function feedAction()
     {
         $blog     = $this->getBlog();

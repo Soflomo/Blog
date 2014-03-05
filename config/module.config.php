@@ -88,6 +88,20 @@ return array(
                             ),
                         ),
                     ),
+                    'category' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/category/:category[/:page]',
+                            'defaults' => array(
+                                'action' => 'category',
+                                'page'   => '1',
+                            ),
+                            'constraints' => array(
+                                'category' => '[a-zA-Z0-9-_.]+',
+                                'page'     => '[0-9]+',
+                            ),
+                        ),
+                    ),
                     'archive' => array(
                         'type'    => 'segment',
                         'options' => array(
