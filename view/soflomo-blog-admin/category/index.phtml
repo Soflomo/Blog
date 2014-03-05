@@ -1,0 +1,26 @@
+<?php
+/**
+ * Listing of blog categories in admin
+ *
+ * @var $blog        Current blog
+ * @var $categories  Categories
+ */
+?>
+
+<h1>Blog listing</h1>
+
+<a href="<?php echo $this->url('zfcadmin/blog/category/create', array(),array(),true)?>">
+    New category
+</a>
+
+<?php if (count($categories)): ?>
+<ul>
+<?php foreach ($categories as $category): ?>
+    <li><a href="<?php echo $this->url('zfcadmin/blog/category/view', array(
+        'category' => $category->getId(),
+    ), array(), true)?>">
+        <?php echo $this->escapeHtml($category->getName())?>
+    </a></li>
+<?php endforeach; ?>
+</ul>
+<?php endif; ?>

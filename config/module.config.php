@@ -157,7 +157,7 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Soflomo\BlogAdmin\Controller\ArticleController',
                                 'action'     => 'index',
-                                'page'       => '1',
+                                'page'       => 1,
                             ),
                             'constraints' => array(
                                 'blog' => '[a-zA-Z0-9-_]+',
@@ -220,6 +220,64 @@ return array(
                                     ),
                                 ),
                             ),
+                            'category' => array(
+                                'type'    => 'literal',
+                                'options' => array(
+                                    'route' => '/category',
+                                    'defaults' => array(
+                                        'controller' => 'Soflomo\BlogAdmin\Controller\CategoryController',
+                                        'action'     => 'index',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes'  => array(
+                                    'view' => array(
+                                        'type'    => 'segment',
+                                        'options' => array(
+                                            'route' => '/:category',
+                                            'defaults' => array(
+                                                'action' => 'view',
+                                            ),
+                                            'constraints' => array(
+                                                'category' => '[0-9]+'
+                                            ),
+                                        ),
+                                    ),
+                                    'create' => array(
+                                        'type'    => 'literal',
+                                        'options' => array(
+                                            'route' => '/new',
+                                            'defaults' => array(
+                                                'action' => 'create',
+                                            ),
+                                        ),
+                                    ),
+                                    'update' => array(
+                                        'type'    => 'segment',
+                                        'options' => array(
+                                            'route' => '/:category/edit',
+                                            'defaults' => array(
+                                                'action' => 'update',
+                                            ),
+                                            'constraints' => array(
+                                                'category' => '[0-9]+'
+                                            ),
+                                        ),
+                                    ),
+                                    'delete' => array(
+                                        'type'    => 'segment',
+                                        'options' => array(
+                                            'route' => '/:category/delete',
+                                            'defaults' => array(
+                                                'action' => 'delete',
+                                            ),
+                                            'constraints' => array(
+                                                'category' => '[0-9]+'
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -261,18 +319,23 @@ return array(
             'Soflomo\Blog\Options\ModuleOptions' => 'Soflomo\Blog\Factory\ModuleOptionsFactory',
 
             'Soflomo\Blog\Repository\Article'    => 'Soflomo\Blog\Factory\ArticleRepositoryFactory',
+            'Soflomo\Blog\Repository\Category'   => 'Soflomo\Blog\Factory\CategoryRepositoryFactory',
             'Soflomo\Blog\Repository\Blog'       => 'Soflomo\Blog\Factory\BlogRepositoryFactory',
 
             'Soflomo\BlogAdmin\Form\Article'     => 'Soflomo\BlogAdmin\Factory\ArticleFormFactory',
+            'Soflomo\BlogAdmin\Form\Category'    => 'Soflomo\BlogAdmin\Factory\CategoryFormFactory',
+
             'Soflomo\BlogAdmin\Service\Article'  => 'Soflomo\BlogAdmin\Factory\ArticleServiceFactory',
+            'Soflomo\BlogAdmin\Service\Category' => 'Soflomo\BlogAdmin\Factory\CategoryServiceFactory',
         ),
     ),
 
     'controllers' => array(
         'factories' => array(
-            'Soflomo\Blog\Controller\ArticleController'      => 'Soflomo\Blog\Factory\ArticleControllerFactory',
-            'Soflomo\BlogAdmin\Controller\ArticleController' => 'Soflomo\BlogAdmin\Factory\ArticleControllerFactory',
-            'Soflomo\BlogAdmin\Controller\IndexController'   => 'Soflomo\BlogAdmin\Factory\IndexControllerFactory',
+            'Soflomo\Blog\Controller\ArticleController'       => 'Soflomo\Blog\Factory\ArticleControllerFactory',
+            'Soflomo\BlogAdmin\Controller\ArticleController'  => 'Soflomo\BlogAdmin\Factory\ArticleControllerFactory',
+            'Soflomo\BlogAdmin\Controller\CategoryController' => 'Soflomo\BlogAdmin\Factory\CategoryControllerFactory',
+            'Soflomo\BlogAdmin\Controller\IndexController'    => 'Soflomo\BlogAdmin\Factory\IndexControllerFactory',
         ),
     ),
 

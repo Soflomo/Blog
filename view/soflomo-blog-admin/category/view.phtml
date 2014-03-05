@@ -1,0 +1,17 @@
+<?php
+/**
+ * (Pre)view page of blog category in admin
+ *
+ * @var $blog     Current blog
+ * @var $category Category from this blog
+ */
+?>
+
+<ul>
+    <li><a href="<?php echo $this->url('zfcadmin/blog/category', array(),array(),true)?>">Back to listing</a></li>
+    <li><a href="<?php echo $this->url('zfcadmin/blog/category/update', array(),array(),true)?>">Edit this category</a></li>
+</ul>
+
+<article>
+    <p><?php echo $this->escapeHtml($category->getName())?></p>
+</article>

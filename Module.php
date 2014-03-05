@@ -96,6 +96,7 @@ class Module implements
         $controllers = array(
             'Soflomo\Blog\Controller\ArticleController',
             'Soflomo\BlogAdmin\Controller\ArticleController',
+            'Soflomo\BlogAdmin\Controller\CategoryController',
         );
         $em->attach($controllers, MvcEvent::EVENT_DISPATCH, array($listener, 'injectTemplate'), -80);
     }
