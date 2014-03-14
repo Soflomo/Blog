@@ -322,6 +322,8 @@ return array(
             'Soflomo\Blog\Repository\Category'   => 'Soflomo\Blog\Factory\CategoryRepositoryFactory',
             'Soflomo\Blog\Repository\Blog'       => 'Soflomo\Blog\Factory\BlogRepositoryFactory',
 
+            'Soflomo\Blog\Hydrator\Strategy\CategoryStrategy' => 'Soflomo\Blog\Factory\CategoryHydratorStrategyFactory',
+
             'Soflomo\BlogAdmin\Form\Article'     => 'Soflomo\BlogAdmin\Factory\ArticleFormFactory',
             'Soflomo\BlogAdmin\Form\Category'    => 'Soflomo\BlogAdmin\Factory\CategoryFormFactory',
 
