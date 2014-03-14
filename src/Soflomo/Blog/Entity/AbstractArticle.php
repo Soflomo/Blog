@@ -214,7 +214,7 @@ abstract class AbstractArticle implements ArticleInterface
      * @param CategoryInterface $category Value to set
      * @return self
      */
-    public function setCategory(CategoryInterface $category)
+    public function setCategory(CategoryInterface $category = null)
     {
         $this->category = $category;
         return $this;
