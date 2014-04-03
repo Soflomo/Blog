@@ -11,6 +11,7 @@
 
 <?php $form->prepare()?>
 <?php echo $this->form()->openTag($form)?>
+    <?php echo $this->formRow($form->get('slug'))?>
     <?php echo $this->formRow($form->get('name'))?>
     <button type="submit">Save</button>
 <?php echo $this->form()->closeTag()?>

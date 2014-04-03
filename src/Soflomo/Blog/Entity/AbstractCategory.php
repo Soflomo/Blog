@@ -46,17 +46,40 @@ namespace Soflomo\Blog\Entity;
 abstract class AbstractCategory implements CategoryInterface
 {
     protected $id;
+    protected $slug;
     protected $name;
     protected $articles;
 
     /**
      * Getter for id
      *
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Getter for slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Setter for slug
+     *
+     * @param string $slug Value to set
+     * @return self
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
     }
 
     /**
@@ -84,7 +107,7 @@ abstract class AbstractCategory implements CategoryInterface
     /**
      * Getter for articles
      *
-     * @return mixed
+     * @return null|array
      */
     public function getArticles()
     {
@@ -94,7 +117,7 @@ abstract class AbstractCategory implements CategoryInterface
     /**
      * Setter for articles
      *
-     * @param mixed $articles Value to set
+     * @param null|array $articles Value to set
      * @return self
      */
     public function setArticles($articles)

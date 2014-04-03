@@ -8,6 +8,7 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="name" type="string" unique="true" nullable="false" />
+        <field name="slug" type="string" unique="true" nullable="false" />
+        <field name="name" type="string" unique="false" nullable="false" />
     </mapped-superclass>
 </doctrine-mapping>

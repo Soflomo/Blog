@@ -43,15 +43,23 @@
 
 namespace Soflomo\BlogAdmin\Form;
 
-use Zend\InputFilter;
+use BaconStringUtils\Filter\Slugify;
+
+use Zend\InputFilter\InputFilterProviderInterface;
 use Zend\Form\Form;
 
-class Category extends Form implements
-    InputFilter\InputFilterProviderInterface
+class Category extends Form implements InputFilterProviderInterface
 {
     public function __construct($name = null)
     {
         parent::__construct($name);
+
+        $this->add(array(
+            'name'    => 'slug',
+            'options' => array(
+                'label' => 'Slug'
+            ),
+        ));
 
         $this->add(array(
             'name'    => 'name',
@@ -64,6 +72,13 @@ class Category extends Form implements
     public function getInputFilterSpecification()
     {
         return array(
+            'slug' => array(
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'stringtrim'),
+                    new Slugify,
+                ),
+            ),
             'name' => array(
                 'required' => true,
                 'filters'  => array(

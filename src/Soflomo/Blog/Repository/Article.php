@@ -100,7 +100,7 @@ class Article extends EntityRepository
         $qb->andWhere('a.blog = :blog')
            ->setParameter('blog', $blog)
            ->leftJoin('a.category', 'c')
-           ->andWhere('c.name = :category')
+           ->andWhere('c.slug = :category')
            ->setParameter('category', $category);
 
         if (true === $includeUnpublished) {
