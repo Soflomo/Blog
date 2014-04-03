@@ -40,27 +40,20 @@
 
 namespace Soflomo\BlogAdmin\Factory;
 
-use Soflomo\BlogAdmin\Form\Article    as ArticleForm;
-use Soflomo\Common\Hydrator\Strategy\DateTimeStrategy;
-use Soflomo\Common\Form\FormUtils;
+use Soflomo\BlogAdmin\Form\Category   as CategoryForm;
 use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ArticleFormFactory implements FactoryInterface
+class CategoryFormFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $sl)
     {
-        $repository = $sl->get('Soflomo\Blog\Repository\Category');
-        $form       = new ArticleForm(null, $repository);
+        $form = new CategoryForm;
 
         $hydrator = new ClassMethodsHydrator;
-        $hydrator->addStrategy('publish_date', new DateTimeStrategy);
-        $hydrator->addStrategy('category', $sl->get('Soflomo\Blog\Hydrator\Strategy\CategoryStrategy'));
         $form->setHydrator($hydrator);
-
-        FormUtils::injectFilterPluginManager($form, $sl);
 
         return $form;
     }

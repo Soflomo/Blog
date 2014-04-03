@@ -32,36 +32,17 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
+ * @package     Soflomo\Blog
+ * @subpackage  Entity
  * @author      Jurian Sluiman <jurian@soflomo.com>
  * @copyright   2013 Jurian Sluiman.
  * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link        http://soflomo.com
+ * @version     @@PACKAGE_VERSION@@
  */
 
-namespace Soflomo\BlogAdmin\Factory;
+namespace Soflomo\Blog\Entity;
 
-use Soflomo\BlogAdmin\Form\Article    as ArticleForm;
-use Soflomo\Common\Hydrator\Strategy\DateTimeStrategy;
-use Soflomo\Common\Form\FormUtils;
-use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
-
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-class ArticleFormFactory implements FactoryInterface
+class Category extends AbstractCategory
 {
-    public function createService(ServiceLocatorInterface $sl)
-    {
-        $repository = $sl->get('Soflomo\Blog\Repository\Category');
-        $form       = new ArticleForm(null, $repository);
-
-        $hydrator = new ClassMethodsHydrator;
-        $hydrator->addStrategy('publish_date', new DateTimeStrategy);
-        $hydrator->addStrategy('category', $sl->get('Soflomo\Blog\Hydrator\Strategy\CategoryStrategy'));
-        $form->setHydrator($hydrator);
-
-        FormUtils::injectFilterPluginManager($form, $sl);
-
-        return $form;
-    }
 }

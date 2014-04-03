@@ -32,36 +32,59 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
+ * @package     Soflomo\BlogAdmin
+ * @subpackage  Form
  * @author      Jurian Sluiman <jurian@soflomo.com>
  * @copyright   2013 Jurian Sluiman.
  * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link        http://soflomo.com
+ * @version     @@PACKAGE_VERSION@@
  */
 
-namespace Soflomo\BlogAdmin\Factory;
+namespace Soflomo\BlogAdmin\Form;
 
-use Soflomo\BlogAdmin\Form\Article    as ArticleForm;
-use Soflomo\Common\Hydrator\Strategy\DateTimeStrategy;
-use Soflomo\Common\Form\FormUtils;
-use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
+use BaconStringUtils\Filter\Slugify;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\InputFilter\InputFilterProviderInterface;
+use Zend\Form\Form;
 
-class ArticleFormFactory implements FactoryInterface
+class Category extends Form implements InputFilterProviderInterface
 {
-    public function createService(ServiceLocatorInterface $sl)
+    public function __construct($name = null)
     {
-        $repository = $sl->get('Soflomo\Blog\Repository\Category');
-        $form       = new ArticleForm(null, $repository);
+        parent::__construct($name);
 
-        $hydrator = new ClassMethodsHydrator;
-        $hydrator->addStrategy('publish_date', new DateTimeStrategy);
-        $hydrator->addStrategy('category', $sl->get('Soflomo\Blog\Hydrator\Strategy\CategoryStrategy'));
-        $form->setHydrator($hydrator);
+        $this->add(array(
+            'name'    => 'slug',
+            'options' => array(
+                'label' => 'Slug'
+            ),
+        ));
 
-        FormUtils::injectFilterPluginManager($form, $sl);
+        $this->add(array(
+            'name'    => 'name',
+            'options' => array(
+                'label' => 'Name'
+            ),
+        ));
+    }
 
-        return $form;
+    public function getInputFilterSpecification()
+    {
+        return array(
+            'slug' => array(
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'stringtrim'),
+                    new Slugify,
+                ),
+            ),
+            'name' => array(
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'stringtrim'),
+                ),
+            ),
+        );
     }
 }

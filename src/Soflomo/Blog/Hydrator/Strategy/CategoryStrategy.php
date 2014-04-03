@@ -38,30 +38,48 @@
  * @link        http://soflomo.com
  */
 
-namespace Soflomo\BlogAdmin\Factory;
+namespace Soflomo\Blog\Hydrator\Strategy;
 
-use Soflomo\BlogAdmin\Form\Article    as ArticleForm;
-use Soflomo\Common\Hydrator\Strategy\DateTimeStrategy;
-use Soflomo\Common\Form\FormUtils;
-use Zend\Stdlib\Hydrator\ClassMethods as ClassMethodsHydrator;
+use Soflomo\Blog\Entity\CategoryInterface;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Zend\Stdlib\Hydrator\Strategy\DefaultStrategy;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-class ArticleFormFactory implements FactoryInterface
+class CategoryStrategy extends DefaultStrategy
 {
-    public function createService(ServiceLocatorInterface $sl)
+    protected $repository;
+
+    public function __construct(ObjectRepository $repository)
     {
-        $repository = $sl->get('Soflomo\Blog\Repository\Category');
-        $form       = new ArticleForm(null, $repository);
+        $this->repository = $repository;
+    }
 
-        $hydrator = new ClassMethodsHydrator;
-        $hydrator->addStrategy('publish_date', new DateTimeStrategy);
-        $hydrator->addStrategy('category', $sl->get('Soflomo\Blog\Hydrator\Strategy\CategoryStrategy'));
-        $form->setHydrator($hydrator);
+    /**
+     * {@inheritDoc}
+     *
+     * Return category id
+     */
+    public function extract($value)
+    {
+        if ($value instanceof CategoryInterface) {
+            $value = $value->getId();
+        }
 
-        FormUtils::injectFilterPluginManager($form, $sl);
+        return $value;
+    }
 
-        return $form;
+    /**
+     * {@inheritDoc}
+     *
+     * Convert a string value into a Category object
+     */
+    public function hydrate($value)
+    {
+        if (empty($value)) {
+            $value = null;
+        } elseif (is_string($value) && is_numeric($value)) {
+            $value = $this->repository->find($value);
+        }
+
+        return $value;
     }
 }

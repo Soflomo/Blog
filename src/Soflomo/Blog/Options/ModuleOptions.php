@@ -60,6 +60,11 @@ class ModuleOptions extends AbstractOptions
     /**
      * @var int
      */
+    protected $categoryListingLimit = 10;
+
+    /**
+     * @var int
+     */
     protected $archiveListingLimit = 10;
 
     /**
@@ -85,6 +90,11 @@ class ModuleOptions extends AbstractOptions
     /**
      * @var string
      */
+    protected $categoryEntityClass;
+
+    /**
+     * @var string
+     */
     protected $articleEntityClass;
 
     /**
@@ -106,6 +116,28 @@ class ModuleOptions extends AbstractOptions
     public function setRecentListingLimit($recentListingLimit)
     {
         $this->recentListingLimit = (int) $recentListingLimit;
+        return $this;
+    }
+
+    /**
+     * Getter for categoryListingLimit
+     *
+     * @return mixed
+     */
+    public function getCategoryListingLimit()
+    {
+        return $this->categoryListingLimit;
+    }
+
+    /**
+     * Setter for categoryListingLimit
+     *
+     * @param mixed $categoryListingLimit Value to set
+     * @return self
+     */
+    public function setCategoryListingLimit($categoryListingLimit)
+    {
+        $this->categoryListingLimit = $categoryListingLimit;
         return $this;
     }
 
@@ -232,6 +264,28 @@ class ModuleOptions extends AbstractOptions
     public function setBlogEntityClass($blogEntityClass)
     {
         $this->blogEntityClass = $blogEntityClass;
+        return $this;
+    }
+
+    /**
+     * Getter for categoryEntityClass
+     *
+     * @return mixed
+     */
+    public function getCategoryEntityClass()
+    {
+        return $this->categoryEntityClass;
+    }
+
+    /**
+     * Setter for categoryEntityClass
+     *
+     * @param mixed $categoryEntityClass Value to set
+     * @return self
+     */
+    public function setCategoryEntityClass($categoryEntityClass)
+    {
+        $this->categoryEntityClass = $categoryEntityClass;
         return $this;
     }
 

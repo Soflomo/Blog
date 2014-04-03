@@ -12,4 +12,8 @@ $this->headTitle($this->escapeHtmlAttr($article->getTitle()));
     <h1><?php echo $this->escapeHtml($article->getTitle())?></h1>
     <p><?php echo $article->getLead()?></p>
     <p><?php echo $article->getBody()?></p>
+
+    <?php if (null !== $article->getCategory()):?>
+        <p>Category: <a href=""><?= $article->getCategory()->getName()?></a></p>
+    <?php endif?>
 </article>

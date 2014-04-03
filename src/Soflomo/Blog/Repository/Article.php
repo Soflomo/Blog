@@ -94,6 +94,27 @@ class Article extends EntityRepository
         return $paginator;
     }
 
+    public function findCategoryListing(BlogEntity $blog, $category, $page, $limit, $includeUnpublished = false)
+    {
+        $qb = $this->createQueryBuilder('a', !$includeUnpublished);
+        $qb->andWhere('a.blog = :blog')
+           ->setParameter('blog', $blog)
+           ->leftJoin('a.category', 'c')
+           ->andWhere('c.slug = :category')
+           ->setParameter('category', $category);
+
+        if (true === $includeUnpublished) {
+            $qb->andWhere('a.publishDate IS NOT NULL');
+            $qb->orderBy('a.publishDate', 'DESC');
+        }
+
+        $paginator = $this->getPaginator($qb->getQuery());
+        $paginator->setCurrentPageNumber($page)
+                  ->setItemCountPerPage($limit);
+
+        return $paginator;
+    }
+
     public function findUnpublished(BlogEntity $blog)
     {
         $qb = $this->createQueryBuilder('a', false);

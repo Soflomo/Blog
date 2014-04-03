@@ -1,0 +1,17 @@
+<?php
+/**
+ * Create page of blog category in admin
+ *
+ * @var $blog    Current blog
+ * @var $form    Form to edit category
+ */
+?>
+
+<h1>New category</h1>
+
+<?php $form->prepare()?>
+<?php echo $this->form()->openTag($form)?>
+    <?php echo $this->formRow($form->get('slug'))?>
+    <?php echo $this->formRow($form->get('name'))?>
+    <button type="submit">Save</button>
+<?php echo $this->form()->closeTag()?>

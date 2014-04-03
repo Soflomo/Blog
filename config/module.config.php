@@ -42,13 +42,15 @@
 
 return array(
     'soflomo_blog' => array(
-        'blog_entity_class'    => 'Soflomo\Blog\Entity\Blog',
-        'article_entity_class' => 'Soflomo\Blog\Entity\Article',
+        'blog_entity_class'     => 'Soflomo\Blog\Entity\Blog',
+        'category_entity_class' => 'Soflomo\Blog\Entity\Category',
+        'article_entity_class'  => 'Soflomo\Blog\Entity\Article',
 
-        'recent_listing_limit'  => 10,
-        'archive_listing_limit' => 10,
-        'feed_listing_limit'    => 10,
-        'admin_listing_limit'   => 10,
+        'recent_listing_limit'   => 10,
+        'category_listing_limit' => 10,
+        'archive_listing_limit'  => 10,
+        'feed_listing_limit'     => 10,
+        'admin_listing_limit'    => 10,
 
         'sitemap'               => array(
             'changefreq' => '',
@@ -83,6 +85,20 @@ return array(
                             'constraints' => array(
                                 'article' => '[0-9]+',
                                 'slug'    => '[a-zA-Z0-9-_.]+',
+                            ),
+                        ),
+                    ),
+                    'category' => array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/category/:category[/:page]',
+                            'defaults' => array(
+                                'action' => 'category',
+                                'page'   => '1',
+                            ),
+                            'constraints' => array(
+                                'category' => '[a-zA-Z0-9-_.]+',
+                                'page'     => '[0-9]+',
                             ),
                         ),
                     ),
@@ -141,7 +157,7 @@ return array(
                             'defaults' => array(
                                 'controller' => 'Soflomo\BlogAdmin\Controller\ArticleController',
                                 'action'     => 'index',
-                                'page'       => '1',
+                                'page'       => 1,
                             ),
                             'constraints' => array(
                                 'blog' => '[a-zA-Z0-9-_]+',
@@ -204,6 +220,64 @@ return array(
                                     ),
                                 ),
                             ),
+                            'category' => array(
+                                'type'    => 'literal',
+                                'options' => array(
+                                    'route' => '/category',
+                                    'defaults' => array(
+                                        'controller' => 'Soflomo\BlogAdmin\Controller\CategoryController',
+                                        'action'     => 'index',
+                                    ),
+                                ),
+                                'may_terminate' => true,
+                                'child_routes'  => array(
+                                    'view' => array(
+                                        'type'    => 'segment',
+                                        'options' => array(
+                                            'route' => '/:category',
+                                            'defaults' => array(
+                                                'action' => 'view',
+                                            ),
+                                            'constraints' => array(
+                                                'category' => '[0-9]+'
+                                            ),
+                                        ),
+                                    ),
+                                    'create' => array(
+                                        'type'    => 'literal',
+                                        'options' => array(
+                                            'route' => '/new',
+                                            'defaults' => array(
+                                                'action' => 'create',
+                                            ),
+                                        ),
+                                    ),
+                                    'update' => array(
+                                        'type'    => 'segment',
+                                        'options' => array(
+                                            'route' => '/:category/edit',
+                                            'defaults' => array(
+                                                'action' => 'update',
+                                            ),
+                                            'constraints' => array(
+                                                'category' => '[0-9]+'
+                                            ),
+                                        ),
+                                    ),
+                                    'delete' => array(
+                                        'type'    => 'segment',
+                                        'options' => array(
+                                            'route' => '/:category/delete',
+                                            'defaults' => array(
+                                                'action' => 'delete',
+                                            ),
+                                            'constraints' => array(
+                                                'category' => '[0-9]+'
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
                 ),
@@ -245,18 +319,25 @@ return array(
             'Soflomo\Blog\Options\ModuleOptions' => 'Soflomo\Blog\Factory\ModuleOptionsFactory',
 
             'Soflomo\Blog\Repository\Article'    => 'Soflomo\Blog\Factory\ArticleRepositoryFactory',
+            'Soflomo\Blog\Repository\Category'   => 'Soflomo\Blog\Factory\CategoryRepositoryFactory',
             'Soflomo\Blog\Repository\Blog'       => 'Soflomo\Blog\Factory\BlogRepositoryFactory',
 
+            'Soflomo\Blog\Hydrator\Strategy\CategoryStrategy' => 'Soflomo\Blog\Factory\CategoryHydratorStrategyFactory',
+
             'Soflomo\BlogAdmin\Form\Article'     => 'Soflomo\BlogAdmin\Factory\ArticleFormFactory',
+            'Soflomo\BlogAdmin\Form\Category'    => 'Soflomo\BlogAdmin\Factory\CategoryFormFactory',
+
             'Soflomo\BlogAdmin\Service\Article'  => 'Soflomo\BlogAdmin\Factory\ArticleServiceFactory',
+            'Soflomo\BlogAdmin\Service\Category' => 'Soflomo\BlogAdmin\Factory\CategoryServiceFactory',
         ),
     ),
 
     'controllers' => array(
         'factories' => array(
-            'Soflomo\Blog\Controller\ArticleController'      => 'Soflomo\Blog\Factory\ArticleControllerFactory',
-            'Soflomo\BlogAdmin\Controller\ArticleController' => 'Soflomo\BlogAdmin\Factory\ArticleControllerFactory',
-            'Soflomo\BlogAdmin\Controller\IndexController'   => 'Soflomo\BlogAdmin\Factory\IndexControllerFactory',
+            'Soflomo\Blog\Controller\ArticleController'       => 'Soflomo\Blog\Factory\ArticleControllerFactory',
+            'Soflomo\BlogAdmin\Controller\ArticleController'  => 'Soflomo\BlogAdmin\Factory\ArticleControllerFactory',
+            'Soflomo\BlogAdmin\Controller\CategoryController' => 'Soflomo\BlogAdmin\Factory\CategoryControllerFactory',
+            'Soflomo\BlogAdmin\Controller\IndexController'    => 'Soflomo\BlogAdmin\Factory\IndexControllerFactory',
         ),
     ),
 
@@ -275,8 +356,9 @@ return array(
         'entity_resolver' => array(
             'orm_default' => array(
                 'resolvers' => array(
-                    'Soflomo\Blog\Entity\BlogInterface'    => 'Soflomo\Blog\Entity\Blog',
-                    'Soflomo\Blog\Entity\ArticleInterface' => 'Soflomo\Blog\Entity\Article',
+                    'Soflomo\Blog\Entity\BlogInterface'     => 'Soflomo\Blog\Entity\Blog',
+                    'Soflomo\Blog\Entity\CategoryInterface' => 'Soflomo\Blog\Entity\Category',
+                    'Soflomo\Blog\Entity\ArticleInterface'  => 'Soflomo\Blog\Entity\Article',
                 ),
             ),
         ),
