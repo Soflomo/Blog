@@ -52,7 +52,8 @@ class ArticleFormFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $sl)
     {
-        $form = new ArticleForm;
+        $repository = $sl->get('Soflomo\Blog\Repository\Category');
+        $form       = new ArticleForm(null, $repository);
 
         $hydrator = new ClassMethodsHydrator;
         $hydrator->addStrategy('publish_date', new DateTimeStrategy);

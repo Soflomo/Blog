@@ -43,15 +43,22 @@
 
 namespace Soflomo\BlogAdmin\Form;
 
+use Doctrine\Common\Persistence\ObjectRepository as CategoryRepository;
+
 use Zend\InputFilter;
 use Zend\Form\Form;
 
 class Article extends Form implements
     InputFilter\InputFilterProviderInterface
 {
-    public function __construct($name = null)
+    protected $repository;
+
+    protected $categories;
+
+    public function __construct($name = null, CategoryRepository $repository)
     {
         parent::__construct($name);
+        $this->repository = $repository;
 
         $this->add(array(
             'name'    => 'title',
@@ -88,10 +95,33 @@ class Article extends Form implements
                 'label' => 'Publish date'
             ),
         ));
+
+        $categories = $this->getCategories();
+        $list       = array(0 => '');
+        foreach ($categories as $category) {
+            $list[$category->getId()] = $category->getName();
+        }
+
+        $this->add(array(
+            'name'    => 'category',
+            'type'    => 'select',
+            'options' => array(
+                'label' => 'Category',
+            ),
+            'attributes' => array(
+                'options' => $list,
+            ),
+        ));
     }
 
     public function getInputFilterSpecification()
     {
+        $categories = $this->getCategories();
+        $list       = array();
+        foreach ($categories as $category) {
+            $list[] = $category->getId();
+        }
+
         return array(
             'title' => array(
                 'required' => true,
@@ -116,6 +146,22 @@ class Article extends Form implements
             'publish_date' => array(
                 'required' => false,
             ),
+            'categories' => array(
+                'required'  => false,
+                'validator' => array(
+                    array('name' => 'in_array', 'options' => array('hay_stack' => $list)),
+                )
+            ),
         );
+    }
+
+    protected function getCategories()
+    {
+        if (null !== $this->categories) {
+            return $this->categories;
+        }
+
+        $this->categories = $this->repository->findAll();
+        return $this->categories;
     }
 }
