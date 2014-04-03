@@ -20,7 +20,6 @@
         "zendframework/zendframework": "~2.1",
         "doctrine/doctrine-orm-module": "~0.7",
         "zf-commons/zfc-admin": "~0.1",
-        "ensemble/kernel": "~0.1",
         "soflomo/common": "~0.4",
         "soflomo/purifier": "~0.1",
         "bacon/bacon-string-utils": "~1.0"
