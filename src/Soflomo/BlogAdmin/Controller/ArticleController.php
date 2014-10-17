@@ -149,6 +149,7 @@ class ArticleController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getService()->create($article);
 
+                $this->flashMessenger()->addMessage('Article created successfully.');
                 return $this->redirect()->toRoute('zfcadmin/blog/article/view', array(
                     'blog'    => $blog->getSlug(),
                     'article' => $article->getId(),
@@ -183,6 +184,7 @@ class ArticleController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getService()->update($article);
 
+                $this->flashMessenger()->addMessage('Article saved successfully.');
                 return $this->redirect()->toRoute('zfcadmin/blog/article/update', array(
                     'blog'    => $blog->getSlug(),
                     'article' => $article->getId(),
@@ -220,6 +222,7 @@ class ArticleController extends AbstractActionController
 
         $service->delete($article);
 
+        $this->flashMessenger()->addMessage('Article deleted successfully.');
         return $this->redirect()->toRoute('zfcadmin/blog', array(
             'blog' => $blog->getSlug(),
         ));
