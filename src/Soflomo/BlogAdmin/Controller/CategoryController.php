@@ -145,6 +145,7 @@ class CategoryController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getService()->create($category);
 
+                $this->flashMessenger()->addMessage('Category created successfully.');
                 return $this->redirect()->toRoute('zfcadmin/blog/category/view', array(
                     'blog'     => $blog->getSlug(),
                     'category' => $category->getId(),
@@ -179,6 +180,7 @@ class CategoryController extends AbstractActionController
             if ($form->isValid()) {
                 $this->getService()->update($category);
 
+                $this->flashMessenger()->addMessage('Category saved successfully.');
                 return $this->redirect()->toRoute('zfcadmin/blog/category/update', array(
                     'blog'     => $blog->getSlug(),
                     'category' => $category->getId(),
@@ -216,6 +218,7 @@ class CategoryController extends AbstractActionController
 
         $service->delete($category);
 
+        $this->flashMessenger()->addMessage('Category deleted successfully.');
         return $this->redirect()->toRoute('zfcadmin/blog', array(
             'blog' => $blog->getSlug(),
         ));
