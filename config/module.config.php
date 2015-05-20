@@ -309,6 +309,9 @@ return array(
     ),
 
     'view_helpers' => array(
+        'factories' => array(
+            'blogArticles'     => 'Soflomo\Blog\Factory\BlogArticleListingFactory',
+        ),
         'invokables' => array(
             'slug' => 'Soflomo\Blog\View\Helper\Slug'
         ),
